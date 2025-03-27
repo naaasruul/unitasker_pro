@@ -8,6 +8,7 @@ use App\Http\Controllers\StudentController;
 
 Route::get('/', [LoginController::class, 'index'])->name('showLogin');
 Route::post('/login', [LoginController::class, 'login'])->name('login-user');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout-user');
 
 // Admin routes
 Route::prefix('admin')->name('admin.')->group(function () {

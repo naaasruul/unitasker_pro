@@ -14,71 +14,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="sidebar-menu">
-                    <ul class="menu">
-                        <li class="sidebar-title">Menu</li>
-
-                        <li class="sidebar-item active ">
-                            <a href="index.html" class='sidebar-link'>
-                                <i class="bi bi-grid-fill"></i>
-                                <span>Dashboard</span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-stack"></i>
-                                <span>Create</span>
-                            </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item ">
-                                    <a data-bs-toggle="modal" data-bs-target="#createGroupChatModal">New group</a>
-                                    
-                                </li>
-                            </ul>
-                        </li>
-
-                        
-
-
-
-
-                        <li class="sidebar-title">Chatroom</li>
-
-                        <li class="sidebar-item  ">
-                            <a href="chatroom.html" class='sidebar-link'>
-                                <i class="bi bi-file-earmark-medical-fill"></i>
-                                <span>Subject 001</span>
-                            </a>
-                        </li>
-
-
-                        <li class="sidebar-item  ">
-                            <a href="chatroom.html" class='sidebar-link'>
-                                <i class="bi bi-grid-1x2-fill"></i>
-                                <span>Subject 002</span>
-
-                            </a>
-                        </li>
-
-                        <li class="sidebar-item  ">
-                            <a href="chatroom.html" class='sidebar-link'>
-                                <i class="bi bi-file-earmark-spreadsheet-fill"></i>
-                                <span>Subject 003</span>
-                            </a>
-                        </li>
-                        <hr>
-                        <li class="sidebar-item  ">
-                            <a href="../login.html" class='sidebar-link'>
-                                <span>Log out</span>
-                            </a>
-                        </li>
-
-
-
-
-                    </ul>
-                </div>
+                @include('layouts.side_menu')
                 <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
             </div>
 

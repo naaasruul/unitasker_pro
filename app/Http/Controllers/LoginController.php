@@ -30,12 +30,19 @@ class LoginController extends Controller
             } elseif ($user->role === 'student') {
                 return redirect()->route('student.dashboard')->with('success', 'Welcome Student!');
             }
-
-            return redirect()->route('dashboard')->with('success', 'You are logged in!');
         }
 
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ])->withInput();
+    }
+
+    public function logout(Request $request){
+        Auth::logout(); // Log out the user
+
+        $request->session()->invalidate(); // Invalidate the session
+        $request->session()->regenerateToken(); // Regenerate the CSRF token
+
+        return redirect()->route('showLogin')->with('success', 'You have been logged out successfully.');
     }
 }
