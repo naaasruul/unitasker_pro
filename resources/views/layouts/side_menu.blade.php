@@ -25,7 +25,7 @@
                 </li>
 
                 @if (Auth::user()->role === 'student')
-                <li class="sidebar-item  has-sub">
+                {{-- <li class="sidebar-item  has-sub">
                     <a href="#" class='sidebar-link'>
                         <i class="bi bi-stack"></i>
                         <span>Task Management</span>
@@ -35,7 +35,7 @@
                             <a href="task.html">Assigments</a>
                         </li>
                     </ul>
-                </li>
+                </li> --}}
                 @elseif (Auth::user()->role === 'lecturer')
                 <li class="sidebar-item  has-sub">
                     <a href="#" class='sidebar-link'>
