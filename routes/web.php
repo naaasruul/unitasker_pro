@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LecturerController;
 use Illuminate\Support\Facades\Route;
@@ -14,6 +15,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout-user');
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
     Route::get('/manage-course', [AdminController::class, 'showManageCourse'])->name('manage-course');
+    Route::post('/courses', [CourseController::class, 'store'])->name('courses.store');
 });
 
 // Lecturer routes

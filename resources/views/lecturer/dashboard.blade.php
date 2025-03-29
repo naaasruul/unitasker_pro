@@ -2,22 +2,7 @@
 
 <div class="" id="app">
     <div id="main">
-        <div id="sidebar" class="active">
-            <div class="sidebar-wrapper active">
-                <div class="sidebar-header">
-                    <div class="d-flex justify-content-between">
-                        <div class="logo">
-                            <a href="index.html">UNITASKER</a>
-                        </div>
-                        <div class="toggler">
-                            <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
-                        </div>
-                    </div>
-                </div>
-                @include('layouts.side_menu')
-                <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
-            </div>
-
+        @include('layouts.side_menu')
             <div class="page-heading">
                 <h3>Welcome Lect. Miya !</h3>
             </div>
