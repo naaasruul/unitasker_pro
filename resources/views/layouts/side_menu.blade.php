@@ -92,22 +92,20 @@
                 </a>
             </li>
             @endif
-                
-
-
 
                 {{-- Chatroom Section --}}
                 @if (Auth::user()->role === 'student' || Auth::user()->role === 'lecturer')
                 <li class="sidebar-title">Chatroom</li>
 
-                <li class="sidebar-item {{ Request::is('chatroom/subject-001') ? 'active' : '' }}">
-                    <a href="chatroom.html" class='sidebar-link'>
-                        <i class="bi bi-file-earmark-medical-fill"></i>
-                        <span>Subject 001</span>
-                    </a>
-                </li>
-
-                <li class="sidebar-item {{ Request::is('chatroom/subject-002') ? 'active' : '' }}">
+                @foreach (Auth::user()->groups as $group)
+                    <li class="sidebar-item {{ Request::is('chat/' . $group->id) ? 'active' : '' }}">
+                        <a href="{{ route('chat.index', $group) }}" class='sidebar-link'>
+                            <i class="bi bi-chat-dots-fill"></i>
+                            <span>{{ $group->group_name }}</span>
+                        </a>
+                    </li>
+                @endforeach
+                {{-- <li class="sidebar-item {{ Request::is('chatroom/subject-002') ? 'active' : '' }}">
                     <a href="chatroom.html" class='sidebar-link'>
                         <i class="bi bi-grid-1x2-fill"></i>
                         <span>Subject 002</span>
@@ -120,13 +118,15 @@
                         <span>Subject 003</span>
                     </a>
                 </li>
-
+--}}                
+@if (Auth::user()->role === 'student' || Auth::user()->role === 'lecturer')
                 <li class="sidebar-item">
                     <a id="password" class='sidebar-link'>
                         <i class="bi bi-file-earmark-spreadsheet-fill"></i>
                         <span>+ Join Group</span>
                     </a>
-                </li>
+                </li> 
+                @endif
                 @endif
 
                 <hr>

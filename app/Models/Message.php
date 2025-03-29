@@ -10,6 +10,7 @@ class Message extends Model
         'group_id',
         'user_id',
         'message',
+        'media'
     ];
 
     public function group()

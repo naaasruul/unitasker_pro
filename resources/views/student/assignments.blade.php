@@ -3,20 +3,8 @@
     @include('layouts.side_menu')
     <div class="page-heading">
         <div class="page-title">
-            <div class="row">
-                <div class="col-12 col-md-6 order-md-1 order-last">
-                    <h3>My Assignments</h3>
-                    <p class="text-subtitle text-muted">Manage your assignments and tasks</p>
-                </div>
-                <div class="col-12 col-md-6 order-md-2 order-first">
-                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">My Assignments</li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
+            <h3>My Assignments</h3>
+            <p class="text-subtitle text-muted">Manage your assignments and tasks</p>
         </div>
 
         <!-- Assignments Section -->
@@ -25,47 +13,60 @@
                 <!-- Accordion for Assignment List -->
                 <div class="col-lg-7">
                     <div class="accordion" id="assignmentAccordion">
+                        @foreach ($assignments as $assignment)
                         <div class="card">
-                            <div class="card-header" id="headingOne">
+                            <div class="card-header" id="heading{{ $assignment->id }}">
                                 <h5 class="mb-0">
-                                    <button class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        Assignment 1: UI Design
+                                    <button class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $assignment->id }}" aria-expanded="true" aria-controls="collapse{{ $assignment->id }}">
+                                        {{ $assignment->name }}
                                     </button>
                                 </h5>
                             </div>
-                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-bs-parent="#assignmentAccordion">
+                            <div id="collapse{{ $assignment->id }}" class="collapse" aria-labelledby="heading{{ $assignment->id }}" data-bs-parent="#assignmentAccordion">
                                 <div class="card-body">
-                                    <p>Description: Design the user interface for the project.</p>
-                                    <p>Due Date: 2025-04-10</p>
-                                    <p>Priority: High</p>
+                                    <p><strong>Description:</strong> {{ $assignment->description }}</p>
+                                    <p><strong>Due Date:</strong> {{ $assignment->due_date }}</p>
+                                    <p><strong>Priority:</strong> {{ ucfirst($assignment->priority) }}</p>
                                     <ul>
-                                        <li>Task 1: Create wireframes</li>
-                                        <li>Task 2: Design mockups</li>
+                                        @foreach ($assignment->tasks as $task)
+                                        <li>
+                                            <input type="checkbox" {{ $task->is_completed ? 'checked' : '' }}>
+                                            {{ $task->name }}
+                                        </li>
+                                        @endforeach
                                     </ul>
+                                    <!-- Add New Task Button -->
+                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTaskModal{{ $assignment->id }}">Add New Task</button>
                                 </div>
                             </div>
                         </div>
-                        <div class="card">
-                            <div class="card-header" id="headingTwo">
-                                <h5 class="mb-0">
-                                    <button class="btn btn-link collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                        Assignment 2: Backend Development
-                                    </button>
-                                </h5>
-                            </div>
-                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-bs-parent="#assignmentAccordion">
-                                <div class="card-body">
-                                    <p>Description: Develop the backend for the project.</p>
-                                    <p>Due Date: 2025-04-15</p>
-                                    <p>Priority: Medium</p>
-                                    <ul>
-                                        <li>Task 1: Set up database</li>
-                                        <li>Task 2: Create APIs</li>
-                                    </ul>
+
+                        <!-- Modal to Add New Task -->
+                        <div class="modal fade" id="addTaskModal{{ $assignment->id }}" tabindex="-1" role="dialog" aria-labelledby="addTaskModalLabel{{ $assignment->id }}" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="addTaskModalLabel{{ $assignment->id }}">Add New Task for {{ $assignment->name }}</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{ route('student.tasks.store', $assignment) }}" method="POST">
+                                            @csrf
+                                            <div class="form-group">
+                                                <label for="task-name-{{ $assignment->id }}">Task Name</label>
+                                                <input type="text" id="task-name-{{ $assignment->id }}" name="name" class="form-control" placeholder="Enter task name">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="task-desc-{{ $assignment->id }}">Task Description</label>
+                                                <textarea id="task-desc-{{ $assignment->id }}" name="description" class="form-control" placeholder="Enter task description"></textarea>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary mt-3">Add Task</button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- Add more assignments as needed -->
+                        @endforeach
                     </div>
                 </div>
 
@@ -75,65 +76,31 @@
                         <div class="card-header">
                             <h4 class="card-title">Add Assignment</h4>
                         </div>
-                        <div class="card-content">
-                            <div class="card-body">
-                                <form class="form form-vertical">
-                                    <div class="form-body">
-                                        <div class="row">
-                                            <!-- Assignment Name -->
-                                            <div class="col-12">
-                                                <div class="form-group">
-                                                    <label for="assignment-name">Assignment Name</label>
-                                                    <input type="text" id="assignment-name" 
-                                                        class="form-control" name="assignment-name" 
-                                                        placeholder="Enter assignment name">
-                                                </div>
-                                            </div>
-                                
-                                            <!-- Description -->
-                                            <div class="col-12">
-                                                <div class="form-group">
-                                                    <label for="assignment-desc">Description</label>
-                                                    <textarea id="assignment-desc" 
-                                                        class="form-control" name="assignment-desc" 
-                                                        placeholder="Enter assignment description"></textarea>
-                                                </div>
-                                            </div>
-                                
-                                            <!-- Due Date -->
-                                            <div class="col-12">
-                                                <div class="form-group">
-                                                    <label for="due-date">Due Date</label>
-                                                    <input type="date" id="due-date" 
-                                                        class="form-control" name="due-date">
-                                                </div>
-                                            </div>
-                                
-                                            <!-- Priority -->
-                                            <div class="col-12">
-                                                <div class="form-group">
-                                                    <label for="assignment-priority">Priority</label>
-                                                    <select id="assignment-priority" 
-                                                        class="form-control" name="assignment-priority">
-                                                        <option value="low">Low</option>
-                                                        <option value="medium">Medium</option>
-                                                        <option value="high">High</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                
-                                            <!-- Submit and Reset Buttons -->
-                                            <div class="col-12 d-flex justify-content-end">
-                                                <button type="submit" 
-                                                    class="btn btn-primary me-1 mb-1">Add Assignment</button>
-                                                <button type="reset" 
-                                                    class="btn btn-light-secondary me-1 mb-1">Reset</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                                
-                            </div>
+                        <div class="card-body">
+                            <form action="{{ route('student.assignments.store') }}" method="POST">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="assignment-name">Assignment Name</label>
+                                    <input type="text" id="assignment-name" name="name" class="form-control" placeholder="Enter assignment name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="assignment-desc">Description</label>
+                                    <textarea id="assignment-desc" name="description" class="form-control" placeholder="Enter assignment description"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="due-date">Due Date</label>
+                                    <input type="date" id="due-date" name="due_date" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="assignment-priority">Priority</label>
+                                    <select id="assignment-priority" name="priority" class="form-control">
+                                        <option value="low">Low</option>
+                                        <option value="medium">Medium</option>
+                                        <option value="high">High</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary mt-3">Add Assignment</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -141,5 +108,4 @@
         </section>
     </div>
 </div>
-
 @include('user_header_footer.footer')

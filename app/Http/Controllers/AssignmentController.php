@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Models\Assignment;
+use App\Models\Task;
 use Illuminate\Http\Request;
 
 class AssignmentController extends Controller
@@ -11,26 +14,38 @@ class AssignmentController extends Controller
      */
     public function index()
     {
-        //
-
-
-        return view('student.assignments');
+        $assignments = Assignment::with('tasks')->get();
+        return view('student.assignments', compact('assignments'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function storeAssignment(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'due_date' => 'required|date',
+            'priority' => 'required|in:low,medium,high',
+        ]);
+
+        Assignment::create($request->all());
+        return redirect()->back()->with('success', 'Assignment added successfully!');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function storeTask(Request $request, Assignment $assignment)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+
+        $assignment->tasks()->create($request->all());
+        return redirect()->back()->with('success', 'Task added successfully!');
     }
 
     /**
