@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Course;
 use Illuminate\Http\Request;
 
-class AdminController extends Controller
+class AssignmentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,16 +12,9 @@ class AdminController extends Controller
     public function index()
     {
         //
-        return view('admin.dashboard');
-    }
 
-    public function showManageCourse()
-    {
-        // Fetch all courses from the database
-        $courses = Course::all();
 
-        // Pass the courses to the view
-        return view('admin.manage_course',compact('courses'));
+        return view('student.assignments');
     }
 
     /**

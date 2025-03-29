@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\LecturerController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
@@ -16,6 +17,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
     Route::get('/manage-course', [AdminController::class, 'showManageCourse'])->name('manage-course');
     Route::post('/courses', [CourseController::class, 'store'])->name('courses.store');
+    Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
 });
 
 // Lecturer routes
@@ -26,4 +28,6 @@ Route::prefix('lecturer')->name('lecturer.')->group(function () {
 // Student routes
 Route::prefix('student')->name('student.')->group(function () {
     Route::get('/dashboard', [StudentController::class, 'index'])->name('dashboard');
+    Route::get('/assignment', [AssignmentController::class, 'index'])->name('assignment');
+
 });

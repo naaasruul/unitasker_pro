@@ -16,97 +16,112 @@
             <ul class="menu">
                 <li class="sidebar-title">Menu</li>
 
-                <li class="sidebar-item active ">
-                    {{-- To Dashboard --}}
-                    <a href="index.html" class='sidebar-link'>
-                        <i class="bi bi-grid-fill"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
+                 {{-- Dashboard --}}
+<li class="sidebar-item 
+    @if (Auth::user()->role === 'admin' && Request::routeIs('admin.dashboard')) active 
+    @elseif (Auth::user()->role === 'lecturer' && Request::routeIs('lecturer.dashboard')) active 
+    @elseif (Auth::user()->role === 'student' && Request::routeIs('student.dashboard')) active 
+    @endif">
+    <a href="
+        @if (Auth::user()->role === 'admin')
+            {{ route('admin.dashboard') }}
+        @elseif (Auth::user()->role === 'lecturer')
+            {{ route('lecturer.dashboard') }}
+        @elseif (Auth::user()->role === 'student')
+            {{ route('student.dashboard') }}
+        @endif
+    " class='sidebar-link'>
+        <i class="bi bi-grid-fill"></i>
+        <span>Dashboard</span>
+    </a>
+</li>
 
+                {{-- Student Menu --}}
                 @if (Auth::user()->role === 'student')
-                {{-- <li class="sidebar-item  has-sub">
+                <li class="sidebar-item has-sub {{ Request::routeIs('student.assignment') ? 'active' : '' }}">
                     <a href="#" class='sidebar-link'>
                         <i class="bi bi-stack"></i>
                         <span>Task Management</span>
                     </a>
-                    <ul class="submenu ">
-                        <li class="submenu-item ">
-                            <a href="task.html">Assigments</a>
+                    <ul class="submenu">
+                        <li class="submenu-item {{ Request::routeIs('student.assignment') ? 'active' : '' }}">
+                            <a href="{{ route('student.assignment') }}">Assignments</a>
                         </li>
                     </ul>
-                </li> --}}
-                @elseif (Auth::user()->role === 'lecturer')
-                <li class="sidebar-item  has-sub">
+                </li>
+                @endif
+                {{-- Lecturer Menu --}}
+                @if (Auth::user()->role === 'lecturer')
+                <li class="sidebar-item has-sub">
                     <a href="#" class='sidebar-link'>
                         <i class="bi bi-stack"></i>
                         <span>Create</span>
                     </a>
-                    <ul class="submenu ">
-                        <li class="submenu-item ">
-                            <a data-bs-toggle="modal" data-bs-target="#createGroupChatModal">New group</a>
-                            
+                    <ul class="submenu">
+                        <li class="submenu-item">
+                            <a data-bs-toggle="modal" data-bs-target="#createGroupChatModal">New Group</a>
                         </li>
                     </ul>
-                </li>
-                
-                @elseif (Auth::user()->role === 'admin')
-                <li class="sidebar-item  has-sub">
-                    <a href="#" class='sidebar-link'>
-                        <i class="bi bi-stack"></i>
-                        <span>User</span>
-                    </a>
-                   <ul class="submenu ">
-                        <li class="submenu-item ">
-                            <a href="allStudent.html">Students</a>
-                        </li>
-                        <li class="submenu-item ">
-                            <a href="allLecturer.html">Lecturers</a>
-                        </li>
-                        <li class="submenu-item ">
-                            <a href="performance.html">Performance</a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="sidebar-item">
-                    <a href="{{ route('admin.manage-course') }}" class='sidebar-link'>
-                        <i class="bi bi-stack"></i>
-                        <span>Manage Course</span>
-                    </a>
                 </li>
                 @endif
                 
+               {{-- Admin Menu --}}
+               @if (Auth::user()->role === 'admin')
+               <li class="sidebar-item has-sub {{ Request::routeIs('admin.manage-course') ? 'active' : '' }}">
+                   <a href="#" class='sidebar-link'>
+                       <i class="bi bi-stack"></i>
+                       <span>User</span>
+                   </a>
+                   <ul class="submenu">
+                       <li class="submenu-item">
+                           <a href="allStudent.html">Students</a>
+                       </li>
+                       <li class="submenu-item">
+                           <a href="allLecturer.html">Lecturers</a>
+                       </li>
+                       <li class="submenu-item">
+                           <a href="performance.html">Performance</a>
+                       </li>
+                   </ul>
+               </li>
+
+               <li class="sidebar-item {{ Request::routeIs('admin.manage-course') ? 'active' : '' }}">
+                <a href="{{ route('admin.manage-course') }}" class='sidebar-link'>
+                    <i class="bi bi-stack"></i>
+                    <span>Manage Course</span>
+                </a>
+            </li>
+            @endif
+                
 
 
 
+                {{-- Chatroom Section --}}
                 @if (Auth::user()->role === 'student' || Auth::user()->role === 'lecturer')
                 <li class="sidebar-title">Chatroom</li>
 
-                <li class="sidebar-item  ">
-                     <a href="chatroom.html" class='sidebar-link'>
+                <li class="sidebar-item {{ Request::is('chatroom/subject-001') ? 'active' : '' }}">
+                    <a href="chatroom.html" class='sidebar-link'>
                         <i class="bi bi-file-earmark-medical-fill"></i>
                         <span>Subject 001</span>
                     </a>
                 </li>
 
-
-                <li class="sidebar-item  ">
+                <li class="sidebar-item {{ Request::is('chatroom/subject-002') ? 'active' : '' }}">
                     <a href="chatroom.html" class='sidebar-link'>
                         <i class="bi bi-grid-1x2-fill"></i>
                         <span>Subject 002</span>
-
                     </a>
                 </li>
 
-                <li class="sidebar-item  ">
+                <li class="sidebar-item {{ Request::is('chatroom/subject-003') ? 'active' : '' }}">
                     <a href="chatroom.html" class='sidebar-link'>
                         <i class="bi bi-file-earmark-medical-fill"></i>
                         <span>Subject 003</span>
                     </a>
                 </li>
 
-                <li class="sidebar-item  ">
+                <li class="sidebar-item">
                     <a id="password" class='sidebar-link'>
                         <i class="bi bi-file-earmark-spreadsheet-fill"></i>
                         <span>+ Join Group</span>
