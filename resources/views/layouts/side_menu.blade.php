@@ -16,135 +16,164 @@
             <ul class="menu">
                 <li class="sidebar-title">Menu</li>
 
-                 {{-- Dashboard --}}
-<li class="sidebar-item 
-    @if (Auth::user()->role === 'admin' && Request::routeIs('admin.dashboard')) active 
-    @elseif (Auth::user()->role === 'lecturer' && Request::routeIs('lecturer.dashboard')) active 
-    @elseif (Auth::user()->role === 'student' && Request::routeIs('student.dashboard')) active 
-    @endif">
-    <a href="
-        @if (Auth::user()->role === 'admin')
-            {{ route('admin.dashboard') }}
-        @elseif (Auth::user()->role === 'lecturer')
-            {{ route('lecturer.dashboard') }}
-        @elseif (Auth::user()->role === 'student')
-            {{ route('student.dashboard') }}
-        @endif
-    " class='sidebar-link'>
-        <i class="bi bi-grid-fill"></i>
-        <span>Dashboard</span>
-    </a>
-</li>
+                {{-- Dashboard --}}
+                <li
+                    class="sidebar-item 
+                    @if (Auth::user()->role === 'admin' && Request::routeIs('admin.dashboard')) active 
+                    @elseif (Auth::user()->role === 'lecturer' && Request::routeIs('lecturer.dashboard')) active 
+                    @elseif (Auth::user()->role === 'student' && Request::routeIs('student.dashboard')) active @endif">
+                    <a href="
+                        @if (Auth::user()->role === 'admin') {{ route('admin.dashboard') }}
+                        @elseif (Auth::user()->role === 'lecturer')
+                            {{ route('lecturer.dashboard') }}
+                        @elseif (Auth::user()->role === 'student')
+                            {{ route('student.dashboard') }} @endif
+                    "
+                        class='sidebar-link'>
+                        <i class="bi bi-grid-fill"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
 
                 {{-- Student Menu --}}
                 @if (Auth::user()->role === 'student')
-                <li class="sidebar-item has-sub {{ Request::routeIs('student.assignment') ? 'active' : '' }}">
-                    <a href="#" class='sidebar-link'>
-                        <i class="bi bi-stack"></i>
-                        <span>Task Management</span>
-                    </a>
-                    <ul class="submenu">
-                        <li class="submenu-item {{ Request::routeIs('student.assignment') ? 'active' : '' }}">
-                            <a href="{{ route('student.assignment') }}">Assignments</a>
-                        </li>
-                    </ul>
-                </li>
+                    <li class="sidebar-item has-sub {{ Request::routeIs('student.assignment') ? 'active' : '' }}">
+                        <a href="#" class='sidebar-link'>
+                            <i class="bi bi-stack"></i>
+                            <span>Task Management</span>
+                        </a>
+                        <ul class="submenu">
+                            <li class="submenu-item {{ Request::routeIs('student.assignment') ? 'active' : '' }}">
+                                <a href="{{ route('student.assignment') }}">Assignments</a>
+                            </li>
+                        </ul>
+                    </li>
                 @endif
+
                 {{-- Lecturer Menu --}}
                 @if (Auth::user()->role === 'lecturer')
-                <li class="sidebar-item has-sub">
-                    <a href="#" class='sidebar-link'>
-                        <i class="bi bi-stack"></i>
-                        <span>Create</span>
-                    </a>
-                    <ul class="submenu">
-                        <li class="submenu-item">
-                            <a data-bs-toggle="modal" data-bs-target="#createGroupChatModal">New Group</a>
-                        </li>
-                    </ul>
-                </li>
+                    <li class="sidebar-item has-sub">
+                        <a href="#" class='sidebar-link'>
+                            <i class="bi bi-stack"></i>
+                            <span>Create</span>
+                        </a>
+                        <ul class="submenu">
+                            <li class="submenu-item">
+                                <a data-bs-toggle="modal" data-bs-target="#createGroupAssignmentModal">
+                                    New Group Assignment</a>
+                            </li>
+                        </ul>
+                    </li>
                 @endif
-                
-               {{-- Admin Menu --}}
-               @if (Auth::user()->role === 'admin')
-               <li class="sidebar-item has-sub {{ Request::routeIs('admin.manage-course') ? 'active' : '' }}">
-                   <a href="#" class='sidebar-link'>
-                       <i class="bi bi-stack"></i>
-                       <span>User</span>
-                   </a>
-                   <ul class="submenu">
-                       <li class="submenu-item">
-                           <a href="allStudent.html">Students</a>
-                       </li>
-                       <li class="submenu-item">
-                           <a href="allLecturer.html">Lecturers</a>
-                       </li>
-                       <li class="submenu-item">
-                           <a href="performance.html">Performance</a>
-                       </li>
-                   </ul>
-               </li>
 
-               <li class="sidebar-item {{ Request::routeIs('admin.manage-course') ? 'active' : '' }}">
-                <a href="{{ route('admin.manage-course') }}" class='sidebar-link'>
-                    <i class="bi bi-stack"></i>
-                    <span>Manage Course</span>
-                </a>
-            </li>
-            @endif
+
+
+                {{-- Admin Menu --}}
+                @if (Auth::user()->role === 'admin')
+                    <li class="sidebar-item has-sub {{ Request::routeIs('admin.manage-course') ? 'active' : '' }}">
+                        <a href="#" class='sidebar-link'>
+                            <i class="bi bi-stack"></i>
+                            <span>User</span>
+                        </a>
+                        <ul class="submenu">
+                            <li class="submenu-item">
+                                <a href="allStudent.html">Students</a>
+                            </li>
+                            <li class="submenu-item">
+                                <a href="allLecturer.html">Lecturers</a>
+                            </li>
+                            <li class="submenu-item">
+                                <a href="performance.html">Performance</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="sidebar-item {{ Request::routeIs('admin.manage-course') ? 'active' : '' }}">
+                        <a href="{{ route('admin.manage-course') }}" class='sidebar-link'>
+                            <i class="bi bi-stack"></i>
+                            <span>Manage Course</span>
+                        </a>
+                    </li>
+                @endif
 
                 {{-- Chatroom Section --}}
                 @if (Auth::user()->role === 'student' || Auth::user()->role === 'lecturer')
-                <li class="sidebar-title">Chatroom</li>
+                    <li class="sidebar-title">Chatroom</li>
 
-                @foreach (Auth::user()->groups as $group)
-                    <li class="sidebar-item {{ Request::is('chat/' . $group->id) ? 'active' : '' }}">
-                        <a href="{{ route('chat.index', $group) }}" class='sidebar-link'>
-                            <i class="bi bi-chat-dots-fill"></i>
-                            <span>{{ $group->group_name }}</span>
-                        </a>
-                    </li>
-                @endforeach
-                {{-- <li class="sidebar-item {{ Request::is('chatroom/subject-002') ? 'active' : '' }}">
-                    <a href="chatroom.html" class='sidebar-link'>
-                        <i class="bi bi-grid-1x2-fill"></i>
-                        <span>Subject 002</span>
-                    </a>
-                </li>
+                    @foreach (Auth::user()->groups as $group)
+                        <li class="sidebar-item {{ Request::is('chat/' . $group->id) ? 'active' : '' }}">
+                            <a href="{{ route('chat.index', $group) }}" class='sidebar-link'>
+                                <i class="bi bi-chat-dots-fill"></i>
+                                <span>{{ $group->group_name }}</span>
+                            </a>
+                        </li>
+                    @endforeach
 
-                <li class="sidebar-item {{ Request::is('chatroom/subject-003') ? 'active' : '' }}">
-                    <a href="chatroom.html" class='sidebar-link'>
-                        <i class="bi bi-file-earmark-medical-fill"></i>
-                        <span>Subject 003</span>
-                    </a>
-                </li>
---}}                
-@if (Auth::user()->role === 'student' || Auth::user()->role === 'lecturer')
-                <li class="sidebar-item">
-                    <a id="password" class='sidebar-link'>
-                        <i class="bi bi-file-earmark-spreadsheet-fill"></i>
-                        <span>+ Join Group</span>
-                    </a>
-                </li> 
-                @endif
+                    @if (Auth::user()->role === 'student')
+                        <li class="sidebar-item">
+                            <a id="password" class='sidebar-link'>
+                                <i class="bi bi-file-earmark-spreadsheet-fill"></i>
+                                <span>+ Join Group</span>
+                            </a>
+                        </li>
+                    @endif
                 @endif
 
                 <hr>
-                
-                    <li class="sidebar-item  ">
-                        <a href="{{ route('logout-user') }}" class='sidebar-link' 
-                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            <span>Log out</span>
-                        </a>
-                        <form id="logout-form" action="{{ route('logout-user') }}" method="POST" style="display: none;">
-                            @csrf
-                        </form>
-                    </li>
 
-
-
+                <li class="sidebar-item">
+                    <a href="{{ route('logout-user') }}" class='sidebar-link'
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <span>Log out</span>
+                    </a>
+                    <form id="logout-form" action="{{ route('logout-user') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                </li>
             </ul>
         </div>
         <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
+    </div>
+    <!-- Create New Group Modal -->
+    <div class="modal fade text-left" id="createGroupAssignmentModal" tabindex="-1" role="dialog"
+        aria-labelledby="createGroupLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="createGroupLabel">Create New Group</h4>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <i data-feather="x"></i>
+                    </button>
+                </div>
+                <form action="{{ route('lecturer.groups.store') }}" method="POST">
+                    @csrf
+                    <div class="modal-body">
+                        <!-- Group Name -->
+                        <label for="group-name">Group Name:</label>
+                        <div class="form-group">
+                            <input type="text" id="group-name" name="group_name" placeholder="Enter group name"
+                                class="form-control" required>
+                        </div>
+
+                        <!-- Unique Code (Generated Automatically) -->
+                        <label for="unique-code">Unique Code:</label>
+                        <div class="form-group">
+                            <input type="text" id="unique-code" name="unique_code" class="form-control"
+                                value="{{ strtoupper(Str::random(8)) }}" readonly>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                            <i class="bx bx-x d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">Close</span>
+                        </button>
+                        <button type="submit" class="btn btn-primary ml-1">
+                            <i class="bx bx-check d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">Create Group</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </div>

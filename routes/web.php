@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\GroupController;
 use App\Http\Controllers\LecturerController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
@@ -24,6 +25,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 // Lecturer routes
 Route::prefix('lecturer')->name('lecturer.')->group(function () {
     Route::get('/dashboard', [LecturerController::class, 'index'])->name('dashboard');
+    Route::post('/lecturer/groups', [GroupController::class, 'store'])->name('groups.store');
 });
 
 // Student routes

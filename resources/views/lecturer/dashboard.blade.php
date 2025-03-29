@@ -3,6 +3,11 @@
 <div class="" id="app">
     <div id="main">
         @include('layouts.side_menu')
+        @if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
             <div class="page-heading">
                 <h3>Welcome Lect. Miya !</h3>
             </div>
@@ -185,55 +190,7 @@
 
         </div>
     </div>
-    <!-- Create New Group Chat Modal -->
-    <div class="modal fade text-left" id="createGroupChatModal" tabindex="-1" role="dialog"
-        aria-labelledby="createGroupChatLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="createGroupChatLabel">Create New Group Chat</h4>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <i data-feather="x"></i>
-                    </button>
-                </div>
-                <form action="#" method="POST">
-                    <div class="modal-body">
-                        <!-- Group Name -->
-                        <label for="group-name">Group Name:</label>
-                        <div class="form-group">
-                            <input type="text" id="group-name" name="group-name" placeholder="Enter group name"
-                                class="form-control" required>
-                        </div>
-    
-                        <!-- Description -->
-                        <label for="group-description">Description:</label>
-                        <div class="form-group">
-                            <textarea id="group-description" name="group-description"
-                                placeholder="Enter group description (optional)" class="form-control"></textarea>
-                        </div>
-    
-                        <!-- Lecturer Emails -->
-                        <label for="lecturer-emails">Add Lecturers (Emails):</label>
-                        <div class="form-group">
-                            <textarea id="lecturer-emails" name="lecturer-emails"
-                                placeholder="Enter email addresses separated by commas" class="form-control"
-                                required></textarea>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                            <i class="bx bx-x d-block d-sm-none"></i>
-                            <span class="d-none d-sm-block">Close</span>
-                        </button>
-                        <button type="submit" class="btn btn-primary ml-1">
-                            <i class="bx bx-check d-block d-sm-none"></i>
-                            <span class="d-none d-sm-block">Create Group</span>
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+ 
 
 </div>    
 @include('user_header_footer.footer')
