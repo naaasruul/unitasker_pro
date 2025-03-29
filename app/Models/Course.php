@@ -15,4 +15,9 @@ class Course extends Model
         'course_code',
         'course_credit_hours',
     ];
+
+    public function groups()
+    {
+        return $this->hasMany(Group::class);
+    }
 }

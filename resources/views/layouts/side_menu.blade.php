@@ -56,13 +56,31 @@
                         <i class="bi bi-stack"></i>
                         <span>User</span>
                     </a>
+                   <ul class="submenu ">
+                        <li class="submenu-item ">
+                            <a href="allStudent.html">Students</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="allLecturer.html">Lecturers</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="performance.html">Performance</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="sidebar-item">
+                    <a href="{{ route('admin.manage-course') }}" class='sidebar-link'>
+                        <i class="bi bi-stack"></i>
+                        <span>Manage Course</span>
+                    </a>
                 </li>
                 @endif
                 
 
 
 
-
+                @if (Auth::user()->role === 'student' || Auth::user()->role === 'lecturer')
                 <li class="sidebar-title">Chatroom</li>
 
                 <li class="sidebar-item  ">
@@ -94,6 +112,7 @@
                         <span>+ Join Group</span>
                     </a>
                 </li>
+                @endif
 
                 <hr>
                 

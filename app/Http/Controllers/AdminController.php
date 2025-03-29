@@ -15,6 +15,11 @@ class AdminController extends Controller
         return view('admin.dashboard');
     }
 
+    public function showManageCourse()
+    {
+        return view('admin.manage_course');
+    }
+
     /**
      * Show the form for creating a new resource.
      */

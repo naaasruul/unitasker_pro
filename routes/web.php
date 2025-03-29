@@ -13,6 +13,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout-user');
 // Admin routes
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
+    Route::get('/manage-course', [AdminController::class, 'showManageCourse'])->name('manage-course');
 });
 
 // Lecturer routes
