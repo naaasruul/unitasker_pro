@@ -1,4 +1,4 @@
-<script>
+{{-- <script>
     document.getElementById('password').addEventListener('click', async (e) => {
 
         const { value: password } = await Swal.fire({
@@ -17,7 +17,7 @@
             Swal.fire(`Entered password: ${password}`);
         }
     });
-</script>
+</script> --}}
 
 <script src="{{ asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
 <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>

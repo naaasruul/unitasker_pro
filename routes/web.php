@@ -33,6 +33,8 @@ Route::prefix('student')->name('student.')->group(function () {
     Route::get('/dashboard', [StudentController::class, 'index'])->name('dashboard');
     Route::get('/assignment', [AssignmentController::class, 'index'])->name('assignment');
 Route::post('/assignments', [AssignmentController::class, 'storeAssignment'])->name('assignments.store');
+
+Route::post('/student/groups/join', [StudentController::class, 'joinGroup'])->name('groups.join');
 Route::post('/assignments/{assignment}/tasks', [AssignmentController::class, 'storeTask'])->name('tasks.store');
 
 });

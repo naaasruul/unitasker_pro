@@ -1,5 +1,4 @@
 {{--  --}}
-
 <div id="sidebar" class="active">
     <div class="sidebar-wrapper active">
         <div class="sidebar-header">
@@ -111,11 +110,13 @@
 
                     @if (Auth::user()->role === 'student')
                         <li class="sidebar-item">
-                            <a id="password" class='sidebar-link'>
+                            <a href="#" class='sidebar-link' data-bs-toggle="modal" data-bs-target="#joinGroupModal">
                                 <i class="bi bi-file-earmark-spreadsheet-fill"></i>
                                 <span>+ Join Group</span>
                             </a>
                         </li>
+
+                       
                     @endif
                 @endif
 
@@ -176,4 +177,43 @@
             </div>
         </div>
     </div>
+
+
+     <!-- Join Group Modal -->
+     <div class="modal fade text-left" id="joinGroupModal" tabindex="-1" role="dialog"
+     aria-labelledby="joinGroupLabel" aria-hidden="true">
+     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+         <div class="modal-content">
+             <div class="modal-header">
+                 <h4 class="modal-title" id="joinGroupLabel">Join Group</h4>
+                 <button type="button" class="close" data-bs-dismiss="modal"
+                     aria-label="Close">
+                     <i data-feather="x"></i>
+                 </button>
+             </div>
+             <form action="{{ route('student.groups.join') }}" method="POST">
+                 @csrf
+                 <div class="modal-body">
+                     <!-- Unique Code -->
+                     <label for="unique-code">Enter Group Code:</label>
+                     <div class="form-group">
+                         <input type="text" id="unique-code" name="unique_code"
+                             placeholder="Enter unique code" class="form-control" required>
+                     </div>
+                 </div>
+                 <div class="modal-footer">
+                     <button type="button" class="btn btn-light-secondary"
+                         data-bs-dismiss="modal">
+                         <i class="bx bx-x d-block d-sm-none"></i>
+                         <span class="d-none d-sm-block">Close</span>
+                     </button>
+                     <button type="submit" class="btn btn-primary ml-1">
+                         <i class="bx bx-check d-block d-sm-none"></i>
+                         <span class="d-none d-sm-block">Join Group</span>
+                     </button>
+                 </div>
+             </form>
+         </div>
+     </div>
+ </div>
 </div>
