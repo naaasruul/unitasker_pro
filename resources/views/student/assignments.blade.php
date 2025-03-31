@@ -6,7 +6,7 @@
             <h3>My Assignments</h3>
             <p class="text-subtitle text-muted">Manage your assignments and tasks</p>
         </div>
-
+    </div>
         <!-- Assignments Section -->
         <section class="assignments">
             <div class="row">

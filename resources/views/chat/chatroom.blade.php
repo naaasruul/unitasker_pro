@@ -18,6 +18,12 @@
                         <h6 class="mb-0">{{ $group->name }}</h6>
                         <span class="text-xs">{{ $group->users->count() }} Members</span>
                     </div>
+                    <div class="ms-auto">
+                        <!-- Navigation Button to Group To-Do List -->
+                        <a href="{{ route('group-tasks.index', $group->id) }}" class="btn btn-primary">
+                            <i class="bi bi-list-task"></i> Group To-Do List
+                        </a>
+                    </div>
                 </div>
             </div>
             <div class="card-body pt-4 bg-grey">
@@ -39,16 +45,22 @@
                     @endforeach
                 </div>
             </div>
-            <div class="card-footer">
-                <form id="sendMessageForm" action="{{ route('chat.send', $group) }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <div class="message-form d-flex align-items-center">
-                        <input type="text" name="message" class="form-control" placeholder="Type your message...">
-                        <input type="file" name="media" class="form-control-file mx-2">
-                        <button type="submit" class="btn btn-primary">Send</button>
-                    </div>
-                </form>
-            </div>
+            @if (Auth::user()->role === 'student')
+                <div class="card-footer">
+                    <form id="sendMessageForm" action="{{ route('chat.send', $group) }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="message-form d-flex align-items-center">
+                            <input type="text" name="message" class="form-control" placeholder="Type your message...">
+                            <input type="file" name="media" class="form-control-file mx-2">
+                            <button type="submit" class="btn btn-primary">Send</button>
+                        </div>
+                    </form>
+                </div>
+            @else
+                <div class="card-footer">
+                    <p class="text-muted">You are viewing this chatroom as a lecturer. Messages cannot be sent.</p>
+                </div>
+            @endif
         </div>
     </div>
 </div>

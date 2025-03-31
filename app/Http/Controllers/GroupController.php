@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class GroupController extends Controller
 {
@@ -35,13 +36,10 @@ class GroupController extends Controller
             'group_name' => 'required|string|max:255',
         ]);
 
-        // Generate a unique code
-        $uniqueCode = strtoupper(Str::random(8));
-
-        // Create the group
         Group::create([
             'group_name' => $request->group_name,
-            'unique_code' => $uniqueCode,
+            'unique_code' => strtoupper(Str::random(8)),
+            'created_by' => Auth::id(),
         ]);
 
         return redirect()->back()->with('success', 'Group created successfully!');

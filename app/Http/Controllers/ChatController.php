@@ -9,12 +9,15 @@ use Illuminate\Support\Facades\Auth;
 
 class ChatController extends Controller
 {
-    //
     public function index(Group $group)
     {
-        // Ensure the user belongs to the group
-        if (!Auth::user()->groups->contains($group)) {
-            abort(403, 'Unauthorized');
+        // Check if the user is authorized to view the group
+        if (Auth::user()->role === 'student' && !$group->users->contains(Auth::id())) {
+            abort(403, 'Unauthorized access to this group.');
+        }
+
+        if (Auth::user()->role === 'lecturer' && $group->created_by !== Auth::id()) {
+            abort(403, 'Unauthorized access to this group.');
         }
 
         // Fetch messages for the group
@@ -22,11 +25,12 @@ class ChatController extends Controller
 
         return view('chat.chatroom', compact('group', 'messages'));
     }
+
     public function send(Request $request, Group $group)
     {
-        // Ensure the user belongs to the group
-        if (!Auth::user()->groups->contains($group)) {
-            abort(403, 'Unauthorized');
+        // Ensure only students can send messages
+        if (Auth::user()->role !== 'student') {
+            abort(403, 'Only students can send messages.');
         }
 
         $request->validate([

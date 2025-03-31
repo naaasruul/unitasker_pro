@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Group;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LecturerController extends Controller
 {
@@ -21,6 +23,22 @@ class LecturerController extends Controller
     public function create()
     {
         //
+    }
+
+    /**
+     * Monitor chats for a specific group created by the lecturer.
+     */
+    public function monitorGroupChats(Group $group)
+    {
+        // Ensure the group belongs to the authenticated lecturer
+        if ($group->created_by !== Auth::id()) {
+            abort(403, 'Unauthorized access to this group.');
+        }
+
+        // Load the group with its messages and associated users
+        $group->load(['messages.user']);
+
+        return view('chat.chatroom', compact('group'));
     }
 
     /**

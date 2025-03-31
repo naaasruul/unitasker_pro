@@ -10,7 +10,7 @@ class Group extends Model
         'group_name',
         'course_id',
         'unique_code',
-
+        'created_by',
     ];
 
     public function course()
@@ -31,5 +31,16 @@ class Group extends Model
     public function assignments()
     {
         return $this->hasMany(Assignment::class);
+    }
+
+    // Add this relationship for tasks
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
+
+    public function groupTasks()
+    {
+        return $this->hasMany(GroupTask::class);
     }
 }

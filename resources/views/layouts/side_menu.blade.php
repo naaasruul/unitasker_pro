@@ -59,10 +59,22 @@
                         <ul class="submenu">
                             <li class="submenu-item">
                                 <a data-bs-toggle="modal" data-bs-target="#createGroupAssignmentModal">
-                                    New Group Assignment</a>
+                                    New Group Assignment
+                                </a>
                             </li>
                         </ul>
                     </li>
+
+                    {{-- Display Created Groups --}}
+                    <li class="sidebar-title">Your Groups</li>
+                    @foreach (Auth::user()->createdGroups as $group)
+                        <li class="sidebar-item {{ Request::is('lecturer/groups/' . $group->id . '/chats') ? 'active' : '' }}">
+                            <a href="{{ route('lecturer.groups.chats', $group->id) }}" class='sidebar-link'>
+                                <i class="bi bi-chat-dots-fill"></i>
+                                <span>{{ $group->group_name }}</span>
+                            </a>
+                        </li>
+                    @endforeach
                 @endif
 
 
