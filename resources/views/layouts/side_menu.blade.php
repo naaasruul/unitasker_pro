@@ -36,7 +36,7 @@
 
                 {{-- Student Menu --}}
                 @if (Auth::user()->role === 'student')
-                    <li class="sidebar-item has-sub {{ Request::routeIs('student.assignment') ? 'active' : '' }}">
+                    {{-- <li class="sidebar-item has-sub {{ Request::routeIs('student.assignment') ? 'active' : '' }}">
                         <a href="#" class='sidebar-link'>
                             <i class="bi bi-stack"></i>
                             <span>Task Management</span>
@@ -46,7 +46,7 @@
                                 <a href="{{ route('student.assignment') }}">Assignments</a>
                             </li>
                         </ul>
-                    </li>
+                    </li> --}}
                 @endif
 
                 {{-- Lecturer Menu --}}
@@ -108,7 +108,7 @@
                 @endif
 
                 {{-- Chatroom Section --}}
-                @if (Auth::user()->role === 'student' || Auth::user()->role === 'lecturer')
+                @if (Auth::user()->role === 'student')
                     <li class="sidebar-title">Chatroom</li>
 
                     @foreach (Auth::user()->groups as $group)

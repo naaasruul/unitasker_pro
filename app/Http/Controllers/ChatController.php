@@ -35,21 +35,33 @@ class ChatController extends Controller
 
         $request->validate([
             'message' => 'nullable|string',
-            'media' => 'nullable|file|mimes:jpg,jpeg,png,gif,mp4,mov|max:20480', // Max 20MB
+            'media' => 'nullable|file|mimes:jpg,jpeg,png,gif,mp4,mov,pdf|max:20480', // Max 20MB
         ]);
 
+        $mediaPath = null;
+
+        if ($request->hasFile('media')) {
+            $mediaPath = $request->file('media')->store('chat_media', 'public');
+        }
+
+
         $data = [
+           'group_id' => $group->id,
             'user_id' => Auth::id(),
             'message' => $request->message,
+            'media' => $mediaPath,
         ];
 
-        // Handle media upload
-        if ($request->hasFile('media')) {
-            $data['media'] = $request->file('media')->store('chat_media', 'public');
-        }
 
         $group->messages()->create($data);
 
         return response()->json(['success' => true]);
     }
+
+    // public function fetchMessages(Group $group)
+    // {
+    //     $messages = $group->messages()->with('user')->latest()->get();
+
+    //     return view('chat.partials.messages', compact('messages'))->render();
+    // }
 }

@@ -15,7 +15,7 @@
                         <span class="avatar-status bg-success"></span>
                     </div>
                     <div class="name flex-grow-1">
-                        <h6 class="mb-0">{{ $group->name }}</h6>
+                        <h6 class="mb-0">{{ $group->group_name }}</h6>
                         <span class="text-xs">{{ $group->users->count() }} Members</span>
                     </div>
                     <div class="ms-auto">
@@ -36,7 +36,16 @@
                                     {{ $message->message }}
                                     @if ($message->media)
                                         <div class="mt-2">
-                                            <img src="{{ asset('storage/' . $message->media) }}" alt="Media" class="img-fluid">
+                                            @if (Str::endsWith($message->media, ['jpg', 'jpeg', 'png', 'gif']))
+                                                <img src="{{ asset('storage/' . $message->media) }}" alt="Media" class="w-50">
+                                            @elseif (Str::endsWith($message->media, ['mp4', 'avi']))
+                                                <video controls class="img-fluid">
+                                                    <source src="{{ asset('storage/' . $message->media) }}" type="video/mp4">
+                                                    Your browser does not support the video tag.
+                                                </video>
+                                            @else
+                                                <a href="{{ asset('storage/' . $message->media) }}" target="_blank">Download File</a>
+                                            @endif
                                         </div>
                                     @endif
                                 </div>
@@ -50,7 +59,7 @@
                     <form id="sendMessageForm" action="{{ route('chat.send', $group) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="message-form d-flex align-items-center">
-                            <input type="text" name="message" class="form-control" placeholder="Type your message...">
+                            <input type="text" name="message" class="form-control" placeholder="Type your message..." required>
                             <input type="file" name="media" class="form-control-file mx-2">
                             <button type="submit" class="btn btn-primary">Send</button>
                         </div>
@@ -89,14 +98,18 @@
                         fetchMessages();
                         form[0].reset();
                     }
+                },
+                error: function () {
+                    alert('Failed to send the message. Please try again.');
                 }
             });
         });
 
         // Fetch messages via AJAX
         function fetchMessages() {
-            $.get('{{ route('chat.index', $group) }}', function (html) {
-                $('#chat-content').html(html);
+            $.get('{{ route('chat.fetch-messages', $group) }}', function (data) {
+                // Update only the chat content
+                $('#chat-content').html(data);
             });
         }
 

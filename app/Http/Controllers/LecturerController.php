@@ -13,8 +13,24 @@ class LecturerController extends Controller
      */
     public function index()
     {
-        //
-        return view('lecturer.dashboard');
+        // Get groups managed by the lecturer
+        $groups = Group::where('created_by', Auth::id())->with(['users', 'groupTasks'])->get();
+
+        // Prepare data for the view
+        $groupData = $groups->map(function ($group) {
+            return [
+                'group_name' => $group->group_name,
+                'tasks' => $group->groupTasks->map(function ($task) {
+                    return [
+                        'task_name' => $task->name,
+                        'description' => $task->description,
+                        'is_completed' => $task->is_completed,
+                    ];
+                }),
+            ];
+        });
+
+        return view('lecturer.dashboard', compact('groupData'));
     }
 
     /**

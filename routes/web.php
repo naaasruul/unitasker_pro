@@ -59,9 +59,9 @@ Route::prefix('group')->name('group.')->group(function () {
 
 // Personal To-Do List Routes
 Route::prefix('tasks')->name('tasks.')->group(function () {
-    Route::get('/', [TaskController::class, 'index'])->name('index'); // View personal tasks
-    Route::post('/', [TaskController::class, 'store'])->name('store'); // Add a new task
-    Route::patch('/{task}', [TaskController::class, 'markAsCompleted'])->name('mark-completed'); // Mark task as completed
+    Route::post('/tasks', [TaskController::class, 'store'])->name('store');
+    Route::get('/tasks/date', [TaskController::class, 'getTasksByDate'])->name('by-date');
+    Route::get('/tasks/counts', [TaskController::class, 'getTaskCounts'])->name('counts');
 });
 
 // Group To-Do List Routes
