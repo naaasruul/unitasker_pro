@@ -11,17 +11,35 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\GroupTaskController;
+use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\ResetPasswordController;
 
 Route::get('/', [LoginController::class, 'index'])->name('showLogin');
+Route::get('/forgot-password', [LoginController::class, 'showForgotPassword'])->name('showForgotPassword');
 Route::post('/login', [LoginController::class, 'login'])->name('login-user');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout-user');
 
+// Forgot Password
+Route::get('forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+
+// Reset Password
+Route::get('reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
+
 // Admin routes
 Route::prefix('admin')->name('admin.')->group(function () {
+    Route::resource('students', AdminController::class);
     Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
     Route::get('/manage-course', [AdminController::class, 'showManageCourse'])->name('manage-course');
     Route::post('/courses', [CourseController::class, 'store'])->name('courses.store');
     Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
+    Route::get('/manage-students', [AdminController::class, 'showManageStudents'])->name('manage-students');
+    Route::get('/manage-lecturers', [AdminController::class, 'showManageLecturers'])->name('manage-lecturers');
+
+    Route::post('/add-lecturers', [AdminController::class, 'storeLecturer'])->name('storeLecturer');
+    Route::post('{id}/delete-lecturers', [AdminController::class, 'destroyLecturer'])->name('destroyLecturer');
+    Route::put('{id}/update-lecturers', [AdminController::class, 'updateLecturer'])->name('updateLecturer');
 });
 
 // Lecturer routes

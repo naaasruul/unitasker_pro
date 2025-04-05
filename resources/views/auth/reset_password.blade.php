@@ -5,10 +5,10 @@
         <div class="col-lg-5 col-12">
             <div id="auth-left">
                 <div class="auth-logo">
-                    <a href="#"><h1>UNITASKER</h1></a>
+                    <a href="{{ Route('showLogin') }}"><h1>UNITASKER</h1></a>
                 </div>
-                <h1 class="auth-title">Log in.</h1>
-                <p class="auth-subtitle mb-5">Log in with your data that you entered during registration.</p>
+                <h1 class="auth-title">Reset Password</h1>
+                <p class="auth-subtitle mb-5">Enter your new password below.</p>
 
                 {{-- Display Success Message --}}
                 @if (session('status'))
@@ -28,28 +28,33 @@
                     </div>
                 @endif
 
-                <form id="login-form" method='post' action='{{ route('login-user') }}'>
+                <form action="{{ route('password.update') }}" method="POST">
                     @csrf
+                    <input type="hidden" name="token" value="{{ $token }}">
                     <div class="form-group position-relative has-icon-left mb-4">
-                        <input type="text" class="form-control form-control-xl" id="email" name='email' placeholder="Email">
+                        <input type="email" name="email" class="form-control form-control-xl" placeholder="Email" required>
                         <div class="form-control-icon">
-                            <i class="bi bi-person"></i>
+                            <i class="bi bi-envelope"></i>
                         </div>
                     </div>
                     <div class="form-group position-relative has-icon-left mb-4">
-                        <input type="password" class="form-control form-control-xl" id="password" name='password' placeholder="Password">
+                        <input type="password" name="password" class="form-control form-control-xl" placeholder="New Password" required>
                         <div class="form-control-icon">
-                            <i class="bi bi-shield-lock"></i>
+                            <i class="bi bi-lock"></i>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Log in</button>
+                    <div class="form-group position-relative has-icon-left mb-4">
+                        <input type="password" name="password_confirmation" class="form-control form-control-xl" placeholder="Confirm Password" required>
+                        <div class="form-control-icon">
+                            <i class="bi bi-lock"></i>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Reset Password</button>
                 </form>
-                
             </div>
         </div>
         <div class="col-lg-7 d-none d-lg-block">
-            <div id="auth-right">
-            </div>
+            <div id="auth-right"></div>
         </div>
     </div>
 </div>

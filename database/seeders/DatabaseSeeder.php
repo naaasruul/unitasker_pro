@@ -20,18 +20,18 @@ class DatabaseSeeder extends Seeder
         //     'role' => 'admin',
         // ]);
 
-        // Create a lecturer user
-        User::factory()->create([
-            'name' => 'Hazama',
-            'email' => 'lecturer@demo.oo',
-            'password' => bcrypt('password'), // Use a secure password
-            'role' => 'lecturer',
-        ]);
+        // // Create a lecturer user
+        // User::factory()->create([
+        //     'name' => 'Hazama',
+        //     'email' => 'lecturer@demo.oo',
+        //     'password' => bcrypt('password'), // Use a secure password
+        //     'role' => 'lecturer',
+        // ]);
 
         // Create a student user
         User::factory()->create([
-            'name' => 'Zaim Bin Abdul Rahman',
-            'email' => 'student@demo.oo',
+            'name' => 'Nasrulhaq Hidayat',
+            'email' => 'nasrulhaqhidayat@gmail.com',
             'password' => bcrypt('password'), // Use a secure password
             'role' => 'student',
         ]);

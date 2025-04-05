@@ -81,29 +81,19 @@
 
                 {{-- Admin Menu --}}
                 @if (Auth::user()->role === 'admin')
-                    <li class="sidebar-item has-sub {{ Request::routeIs('admin.manage-course') ? 'active' : '' }}">
+                    <li class="sidebar-item has-sub {{ Request::routeIs('admin.manage-students') || Request::routeIs('admin.manage-lecturers') ? 'active' : '' }}">
                         <a href="#" class='sidebar-link'>
                             <i class="bi bi-stack"></i>
                             <span>User</span>
                         </a>
                         <ul class="submenu">
-                            <li class="submenu-item">
-                                <a href="allStudent.html">Students</a>
+                            <li class="submenu-item {{ Request::routeIs('admin.manage-students') ? 'active' : '' }}">
+                                <a href="{{ route('admin.manage-students') }}">Students</a>
                             </li>
-                            <li class="submenu-item">
-                                <a href="allLecturer.html">Lecturers</a>
-                            </li>
-                            <li class="submenu-item">
-                                <a href="performance.html">Performance</a>
+                            <li class="submenu-item {{ Request::routeIs('admin.manage-lecturers') ? 'active' : '' }}">
+                                <a href="{{ route('admin.manage-lecturers') }}">Lecturers</a>
                             </li>
                         </ul>
-                    </li>
-
-                    <li class="sidebar-item {{ Request::routeIs('admin.manage-course') ? 'active' : '' }}">
-                        <a href="{{ route('admin.manage-course') }}" class='sidebar-link'>
-                            <i class="bi bi-stack"></i>
-                            <span>Manage Course</span>
-                        </a>
                     </li>
                 @endif
 

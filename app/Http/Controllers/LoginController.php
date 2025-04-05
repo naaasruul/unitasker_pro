@@ -45,4 +45,10 @@ class LoginController extends Controller
 
         return redirect()->route('showLogin')->with('success', 'You have been logged out successfully.');
     }
+
+    public function showForgotPassword()
+    {
+        return view('auth.forgot_password');
+    }
+    
 }
