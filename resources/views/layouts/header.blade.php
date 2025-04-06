@@ -13,4 +13,5 @@
     <link rel="stylesheet" href="{{ asset('assets/css/pages/auth.css') }}">
 </head>
 
+
 <body>

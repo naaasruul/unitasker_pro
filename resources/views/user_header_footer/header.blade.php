@@ -23,5 +23,41 @@
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet">
     <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
+<style>
+    .chat {
+        display: flex;
+        margin-bottom: 15px;
+    }
+
+    .chat-left {
+        justify-content: flex-start;
+    }
+
+    .chat-right {
+        justify-content: flex-end;
+    }
+
+    .chat-body {
+        max-width: 70%;
+        padding: 10px;
+        border-radius: 10px;
+        background-color: #f1f1f1;
+    }
+
+    .chat-left .chat-body {
+        background-color: #e9ecef;
+    }
+
+    .chat-right .chat-body {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .chat-message strong {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+</style>
 
 <body>

@@ -6,6 +6,7 @@ use App\Models\Group;
 use App\Models\GroupTask;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class GroupTaskController extends Controller
 {
@@ -24,6 +25,9 @@ class GroupTaskController extends Controller
 
     public function store(Request $request, Group $group)
     {
+        // Debug the incoming request
+        Log::info('Request Data:', $request->all());
+
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -33,6 +37,7 @@ class GroupTaskController extends Controller
         $group->groupTasks()->create([
             'name' => $request->name,
             'description' => $request->description,
+            'required_skills' => $request->required_skills,
             'created_by' => Auth::id(),
         ]);
 

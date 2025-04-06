@@ -28,16 +28,18 @@
             </div>
             <div class="card-body pt-4 bg-grey">
                 <div class="chat-content" id="chat-content">
-                    @foreach ($messages as $message)
-                        <div class="chat {{ $message->user_id === Auth::id() ? '' : 'chat-left' }}">
+                    @foreach ($messages->reverse() as $message)
+                        <div class="chat {{ $message->user_id === Auth::id() ? 'chat-right' : 'chat-left' }}">
                             <div class="chat-body">
                                 <div class="chat-message">
-                                    <strong>{{ $message->user->name }}:</strong> 
+                                    <strong>{{ $message->user_id === Auth::id() ? 'You' : $message->user->name }}:</strong>
                                     {{ $message->message }}
                                     @if ($message->media)
                                         <div class="mt-2">
                                             @if (Str::endsWith($message->media, ['jpg', 'jpeg', 'png', 'gif']))
+                                            <a href="{{ asset('storage/' . $message->media) }}">
                                                 <img src="{{ asset('storage/' . $message->media) }}" alt="Media" class="w-50">
+                                            </a>
                                             @elseif (Str::endsWith($message->media, ['mp4', 'avi']))
                                                 <video controls class="img-fluid">
                                                     <source src="{{ asset('storage/' . $message->media) }}" type="video/mp4">
@@ -73,6 +75,8 @@
         </div>
     </div>
 </div>
+
+
 
 <script>
     $(document).ready(function () {

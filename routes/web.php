@@ -13,6 +13,8 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\GroupTaskController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordController;
+use App\Http\Controllers\SkillController;
+
 
 Route::get('/', [LoginController::class, 'index'])->name('showLogin');
 Route::get('/forgot-password', [LoginController::class, 'showForgotPassword'])->name('showForgotPassword');
@@ -58,6 +60,9 @@ Route::prefix('student')->name('student.')->group(function () {
 
     Route::post('/student/groups/join', [StudentController::class, 'joinGroup'])->name('groups.join');
     Route::post('/assignments/{assignment}/tasks', [AssignmentController::class, 'storeTask'])->name('tasks.store');
+
+    Route::post('/skills', [SkillController::class, 'store'])->name('skills.store');
+Route::get('/skills', [SkillController::class, 'index'])->name('skills.index');
 
 });
 

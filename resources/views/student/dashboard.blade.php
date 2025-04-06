@@ -11,6 +11,27 @@
     <div class="page-content">
         <section class="row">
             <div class="col-lg-12">
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h4 class="card-title">Your Skill Set</h4>
+                    </div>
+                    <div class="card-body">
+                        <form id="addSkillForm">
+                            <div class="form-group">
+                                <label for="skills">Add Skills</label>
+                                <input type="text" id="skillsInput" class="form-control" placeholder="Type a skill and press Enter">
+                                <div id="skillsContainer" class="mt-2">
+                                    <!-- Chips will be dynamically added here -->
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-3">Save Skills</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
                         <main class="calendar-contain">
@@ -89,10 +110,121 @@
     </div>
 </div>
 
+<!-- Success/Error Modal -->
+<div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="messageModalLabel">Message</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="messageModalBody">
+                <!-- Message content will be dynamically updated -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @include('user_header_footer.footer')
 
 <script>
     $(document).ready(function () {
+        const skillsInput = $('#skillsInput');
+        const skillsContainer = $('#skillsContainer');
+        let skills = [];
+
+        // Fetch existing skills from the backend
+        function fetchSkills() {
+            $.ajax({
+                url: '{{ route('student.skills.index') }}',
+                type: 'GET',
+                success: function (response) {
+                    if (response.skills) {
+                        skills = response.skills; // Populate the skills array
+                        skills.forEach(skill => addSkillChip(skill)); // Add chips for existing skills
+                    }
+                },
+                error: function () {
+                    console.error('Failed to fetch skills.');
+                }
+            });
+        }
+
+        // Call fetchSkills on page load
+        fetchSkills();
+
+        // Add skill when pressing Enter
+        skillsInput.on('keypress', function (e) {
+            if (e.which === 13) {
+                e.preventDefault();
+                const skill = skillsInput.val().trim();
+                if (skill && !skills.includes(skill)) {
+                    skills.push(skill);
+                    addSkillChip(skill);
+                    skillsInput.val('');
+                }
+            }
+        });
+
+        // Add skill chip to the container
+        function addSkillChip(skill) {
+            const chip = $(`
+                <span class="badge bg-primary me-2 skill-chip">
+                    ${skill} <i class="bi bi-x-circle ms-1 remove-skill" style="cursor: pointer;"></i>
+                </span>
+            `);
+            chip.find('.remove-skill').on('click', function () {
+                removeSkill(skill);
+                chip.remove();
+            });
+            skillsContainer.append(chip);
+        }
+
+        // Remove skill from the array
+        function removeSkill(skill) {
+            skills = skills.filter(s => s !== skill);
+        }
+
+        // Show the modal with a message
+        function showMessageModal(title, message, isSuccess = true) {
+            $('#messageModalLabel').text(title);
+            $('#messageModalBody').text(message);
+            if (isSuccess) {
+                $('#messageModalBody').removeClass('text-danger').addClass('text-success');
+            } else {
+                $('#messageModalBody').removeClass('text-success').addClass('text-danger');
+            }
+            $('#messageModal').modal('show');
+        }
+
+        // Handle form submission
+        $('#addSkillForm').on('submit', function (e) {
+            e.preventDefault();
+
+            // Allow saving even if the skills array is empty
+            $.ajax({
+                url: '{{ route('student.skills.store') }}',
+                type: 'POST',
+                data: { skills },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function (response) {
+                    if (response.success) {
+                        showMessageModal('Success', response.message);
+                    } else {
+                        showMessageModal('Error', 'An error occurred while saving your skills. Please try again.', false);
+                    }
+                },
+                error: function () {
+                    showMessageModal('Error', 'An error occurred while saving your skills. Please try again.', false);
+                }
+            });
+        });
+
         const currentDateElement = $('#currentDate');
         const todoListElement = $('#todoList');
         const calendarWeeksElement = $('#calendarWeeks');

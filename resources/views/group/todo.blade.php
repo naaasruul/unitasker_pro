@@ -30,6 +30,14 @@
                     <label for="description" class="form-label">Task Description</label>
                     <textarea name="description" id="description" class="form-control"></textarea>
                 </div>
+                <div class="mb-3">
+                    <label for="required-skills" class="form-label">Required Skills</label>
+                    <input type="text" id="skillsInput" class="form-control" placeholder="Type a skill and press Enter">
+                    <div id="skillsContainer" class="mt-2">
+                        <!-- Chips will be dynamically added here -->
+                    </div>
+                </div>
+                <input type="hidden" name="required_skills" id="requiredSkillsInput">
                 <button type="submit" class="btn btn-primary">Add Task</button>
             </form>
         </div>
@@ -44,13 +52,22 @@
             @if ($tasks->where('is_completed', false)->count())
                 <ul class="list-group">
                     @foreach ($tasks->where('is_completed', false) as $task)
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <div>
-                                <strong>{{ $task->name }}</strong>
-                                @if ($task->description)
-                                    <p class="mb-0">{{ $task->description }}</p>
-                                @endif
-                            </div>
+                        <li class="list-group-item">
+                            <strong>{{ $task->name }}</strong>
+                            @if ($task->description)
+                                <p>{{ $task->description }}</p>
+                            @endif
+                            @if ($task->required_skills)
+                                <p><strong>Required Skills:</strong> {{ implode(', ', json_decode($task->required_skills)) }}</p>
+                                <p><strong>Matching Users:</strong></p>
+                                <ul>
+                                    @foreach ($group->users as $user)
+                                        @if ($user->hasSkills(json_decode($task->required_skills, true)))
+                                            <li>{{ $user->name }}</li>
+                                        @endif
+                                    @endforeach
+                                </ul>
+                            @endif
                             <form action="{{ route('group-tasks.mark-completed', [$group->id, $task->id]) }}" method="POST">
                                 @csrf
                                 @method('PATCH')
@@ -91,5 +108,52 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+        const skillsInput = $('#skillsInput');
+        const skillsContainer = $('#skillsContainer');
+        const requiredSkillsInput = $('#requiredSkillsInput');
+        let requiredSkills = [];
 
+        // Add skill when pressing Enter
+        skillsInput.on('keypress', function (e) {
+            if (e.which === 13) {
+                e.preventDefault();
+                const skill = skillsInput.val().trim();
+                if (skill && !requiredSkills.includes(skill)) {
+                    requiredSkills.push(skill);
+                    addSkillChip(skill);
+                    skillsInput.val('');
+                }
+            }
+        });
+
+        // Add skill chip to the container
+        function addSkillChip(skill) {
+            const chip = $(`
+                <span class="badge bg-primary me-2 skill-chip">
+                    ${skill} <i class="bi bi-x-circle ms-1 remove-skill" style="cursor: pointer;"></i>
+                </span>
+            `);
+            chip.find('.remove-skill').on('click', function () {
+                removeSkill(skill);
+                chip.remove();
+            });
+            skillsContainer.append(chip);
+            updateRequiredSkillsInput();
+        }
+
+        // Remove skill from the array
+        function removeSkill(skill) {
+            requiredSkills = requiredSkills.filter(s => s !== skill);
+            updateRequiredSkillsInput();
+        }
+
+        // Update the hidden input with the required skills
+        function updateRequiredSkillsInput() {
+            requiredSkillsInput.val(JSON.stringify(requiredSkills));
+        }
+    });
+</script>
 @include('user_header_footer.footer')
+

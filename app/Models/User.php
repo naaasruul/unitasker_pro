@@ -56,4 +56,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Group::class, 'created_by');
     }
+
+    public function hasSkills(array $skills): bool
+    {
+        $userSkills = $this->skills ? json_decode($this->skills, true) : [];
+        return empty(array_diff($skills, $userSkills));
+    }
 }
