@@ -38,7 +38,7 @@ class GroupController extends Controller
 
         Group::create([
             'group_name' => $request->group_name,
-            'unique_code' => strtoupper(Str::random(8)),
+            'unique_code' => $request->unique_code,
             'created_by' => Auth::id(),
         ]);
 
