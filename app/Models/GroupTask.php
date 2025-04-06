@@ -12,7 +12,8 @@ class GroupTask extends Model
         'name',
         'description',
         'is_completed',
-        'required_skills', // Add this line
+        'required_skills',
+        'status', // Add this line
     ];
 
     public function group()

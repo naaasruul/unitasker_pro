@@ -46,38 +46,41 @@
     {{-- Pending Tasks --}}
     <div class="card mb-4">
         <div class="card-header">
-            <h5>Pending Tasks</h5>
+            <h5>Tasks</h5>
         </div>
         <div class="card-body">
-            @if ($tasks->where('is_completed', false)->count())
-                <ul class="list-group">
-                    @foreach ($tasks->where('is_completed', false) as $task)
-                        <li class="list-group-item">
-                            <strong>{{ $task->name }}</strong>
-                            @if ($task->description)
-                                <p>{{ $task->description }}</p>
-                            @endif
-                            @if ($task->required_skills)
-                                <p><strong>Required Skills:</strong> {{ implode(', ', json_decode($task->required_skills)) }}</p>
-                                <p><strong>Matching Users:</strong></p>
-                                <ul>
-                                    @foreach ($group->users as $user)
-                                        @if ($user->hasSkills(json_decode($task->required_skills, true)))
-                                            <li>{{ $user->name }}</li>
-                                        @endif
-                                    @endforeach
-                                </ul>
-                            @endif
-                            <form action="{{ route('group-tasks.mark-completed', [$group->id, $task->id]) }}" method="POST">
-                                @csrf
-                                @method('PATCH')
-                                <button type="submit" class="btn btn-success btn-sm">Mark as Completed</button>
-                            </form>
-                        </li>
-                    @endforeach
-                </ul>
+            @if ($tasks->count())
+            <ul class="list-group">
+                @foreach ($tasks as $task)
+                <li class="list-group-item">
+                    <strong>{{ $task->name }}</strong>
+                    @if ($task->description)
+                    <p>{{ $task->description }}</p>
+                    @endif
+                    @if ($task->required_skills)
+                    <p><strong>Required Skills:</strong> {{ implode(', ', json_decode($task->required_skills)) }}</p>
+                    @endif
+                    <p><strong>Status:</strong> {{ ucfirst(str_replace('_', ' ', $task->status)) }}</p>
+    
+                    {{-- Change Status Form --}}
+                    <form action="{{ route('group.change-status', [$group->id, $task->id]) }}" method="POST"
+                        class="d-inline">
+                        @csrf
+                        @method('PATCH')
+                        <select name="status" class="form-select form-select-sm d-inline w-auto">
+                            <option value="not_complete" {{ $task->status === 'not_complete' ? 'selected' : '' }}>Not
+                                Complete</option>
+                            <option value="ongoing" {{ $task->status === 'ongoing' ? 'selected' : '' }}>Ongoing</option>
+                            <option value="completed" {{ $task->status === 'completed' ? 'selected' : '' }}>Completed
+                            </option>
+                        </select>
+                        <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                    </form>
+                </li>
+                @endforeach
+            </ul>
             @else
-                <p>No pending tasks. Add a new task to get started!</p>
+            <p>No tasks available. Add a new task to get started!</p>
             @endif
         </div>
     </div>

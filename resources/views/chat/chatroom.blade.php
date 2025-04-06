@@ -3,7 +3,7 @@
 <div id="main">
     @include('layouts.side_menu')        
     <div class="page-heading">
-        <h3>Chatroom: {{ $group->name }}</h3>
+        <h3>Chatroom: {{ $group->group_name }}</h3>
     </div>
     
     <div class="col-md-12">
@@ -16,7 +16,7 @@
                     </div>
                     <div class="name flex-grow-1">
                         <h6 class="mb-0">{{ $group->group_name }}</h6>
-                        <span class="text-xs">{{ $group->users->count() }} Members</span>
+                        <span class="text-xs">{{ $group->users->count() }} Members | {{ $group->unique_code }}</span>
                     </div>
                     <div class="ms-auto">
                         <!-- Navigation Button to Group To-Do List -->

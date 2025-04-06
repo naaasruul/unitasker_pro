@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('group_tasks', function (Blueprint $table) {
-            $table->json('required_skills')->nullable()->change();
+            //
         });
     }
 
@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('group_tasks', function (Blueprint $table) {
-            $table->dropColumn('required_skills');
+            //
         });
     }
 };

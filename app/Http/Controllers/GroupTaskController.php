@@ -25,19 +25,17 @@ class GroupTaskController extends Controller
 
     public function store(Request $request, Group $group)
     {
-        // Debug the incoming request
-        Log::info('Request Data:', $request->all());
-
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'required_skills' => 'nullable|json',
         ]);
 
-        // Create a new group task
         $group->groupTasks()->create([
             'name' => $request->name,
             'description' => $request->description,
             'required_skills' => $request->required_skills,
+            'status' => 'not_complete', // Default status
             'created_by' => Auth::id(),
         ]);
 
@@ -55,5 +53,21 @@ class GroupTaskController extends Controller
         $task->update(['is_completed' => true]);
 
         return redirect()->route('group-tasks.index', $group->id)->with('success', 'Task marked as completed!');
+    }
+
+    public function changeStatus(Request $request, Group $group, GroupTask $task)
+    {
+        $request->validate([
+            'status' => 'required|in:not_complete,ongoing,completed',
+        ]);
+
+        // Ensure the task belongs to the group
+        if ($task->group_id !== $group->id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $task->update(['status' => $request->status]);
+
+        return redirect()->route('group-tasks.index', $group->id)->with('success', 'Task status updated successfully!');
     }
 }

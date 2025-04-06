@@ -77,7 +77,8 @@ Route::prefix('chat')->name('chat.')->group(function () {
 Route::prefix('group')->name('group.')->group(function () {
     Route::get('/{group}/todo', [GroupController::class, 'showToDoList'])->name('todo'); // Display the to-do list for a group
     Route::post('/{group}/todo', [GroupController::class, 'addTask'])->name('todo.add'); // Add a new task to the group
-    Route::patch('/{group}/todo/{task}', [GroupController::class, 'markTaskAsCompleted'])->name('todo.mark-completed'); // Mark a task as completed
+    // Route::patch('/{group}/todo/{task}', [GroupController::class, 'markTaskAsCompleted'])->name('todo.mark-completed'); // Mark a task as completed
+    Route::patch('/{group}/{task}/status', [GroupTaskController::class, 'changeStatus'])->name('change-status');
 });
 
 // Personal To-Do List Routes
