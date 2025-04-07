@@ -19,8 +19,10 @@ class GroupTaskController extends Controller
 
         // Fetch group tasks
         $tasks = $group->groupTasks()->orderBy('created_at', 'desc')->get();
-
-        return view('group.todo', compact('group', 'tasks'));
+        
+        // Fetch all users in the group
+        $users = $group->users;
+        return view('group.todo', compact('group', 'tasks', 'users'));
     }
 
     public function store(Request $request, Group $group)

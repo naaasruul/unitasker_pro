@@ -50,37 +50,42 @@
         </div>
         <div class="card-body">
             @if ($tasks->count())
-            <ul class="list-group">
-                @foreach ($tasks as $task)
-                <li class="list-group-item">
-                    <strong>{{ $task->name }}</strong>
-                    @if ($task->description)
-                    <p>{{ $task->description }}</p>
-                    @endif
-                    @if ($task->required_skills)
-                    <p><strong>Required Skills:</strong> {{ implode(', ', json_decode($task->required_skills)) }}</p>
-                    @endif
-                    <p><strong>Status:</strong> {{ ucfirst(str_replace('_', ' ', $task->status)) }}</p>
-    
-                    {{-- Change Status Form --}}
-                    <form action="{{ route('group.change-status', [$group->id, $task->id]) }}" method="POST"
-                        class="d-inline">
-                        @csrf
-                        @method('PATCH')
-                        <select name="status" class="form-select form-select-sm d-inline w-auto">
-                            <option value="not_complete" {{ $task->status === 'not_complete' ? 'selected' : '' }}>Not
-                                Complete</option>
-                            <option value="ongoing" {{ $task->status === 'ongoing' ? 'selected' : '' }}>Ongoing</option>
-                            <option value="completed" {{ $task->status === 'completed' ? 'selected' : '' }}>Completed
-                            </option>
-                        </select>
-                        <button type="submit" class="btn btn-sm btn-primary">Update</button>
-                    </form>
-                </li>
-                @endforeach
-            </ul>
+                <ul class="list-group">
+                    @foreach ($tasks as $task)
+                        <li class="list-group-item">
+                            <strong>{{ $task->name }}</strong>
+                            @if ($task->description)
+                                <p>{{ $task->description }}</p>
+                            @endif
+                            @if ($task->required_skills)
+                                <p><strong>Required Skills:</strong> {{ implode(', ', json_decode($task->required_skills)) }}</p>
+                                <p><strong>Matching Users:</strong></p>
+                                <ul>
+                                    @foreach ($users as $user)
+                                        @if ($user->hasSkills(json_decode($task->required_skills, true)))
+                                            <li>{{ $user->name }}</li>
+                                        @endif
+                                    @endforeach
+                                </ul>
+                            @endif
+                            <p><strong>Status:</strong> {{ ucfirst(str_replace('_', ' ', $task->status)) }}</p>
+
+                            {{-- Change Status Form --}}
+                            <form action="{{ route('group.change-status', [$group->id, $task->id]) }}" method="POST" class="d-inline">
+                                @csrf
+                                @method('PATCH')
+                                <select name="status" class="form-select form-select-sm d-inline w-auto">
+                                    <option value="not_complete" {{ $task->status === 'not_complete' ? 'selected' : '' }}>Not Complete</option>
+                                    <option value="ongoing" {{ $task->status === 'ongoing' ? 'selected' : '' }}>Ongoing</option>
+                                    <option value="completed" {{ $task->status === 'completed' ? 'selected' : '' }}>Completed</option>
+                                </select>
+                                <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                            </form>
+                        </li>
+                    @endforeach
+                </ul>
             @else
-            <p>No tasks available. Add a new task to get started!</p>
+                <p>No tasks available. Add a new task to get started!</p>
             @endif
         </div>
     </div>
