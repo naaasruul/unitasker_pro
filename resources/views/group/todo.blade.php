@@ -80,8 +80,8 @@
                                     <option value="completed" {{ $task->status === 'completed' ? 'selected' : '' }}>Completed</option>
 
                                 </select>
-                                <textarea class="form-control my-3" value='{{ $task->progress }}' placeholder="Update your progress"
-                                            id="floatingTextarea" name='progress'></textarea>
+                                <textarea class="form-control my-3" placeholder="Update your progress"
+                                            id="floatingTextarea" name='progress'>{{ $task->progress }}</textarea>
 
                                 <button type="submit" class="btn btn-sm btn-primary">Update</button>
                             </form>
