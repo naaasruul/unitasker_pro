@@ -68,7 +68,7 @@
                                     @endforeach
                                 </ul>
                             @endif
-                            <p><strong>Status:</strong> {{ ucfirst(str_replace('_', ' ', $task->status)) }}</p>
+                            <p class='mt-3'><strong>Status:</strong> {{ ucfirst(str_replace('_', ' ', $task->status)) }}</p>
 
                             {{-- Change Status Form --}}
                             <form action="{{ route('group.change-status', [$group->id, $task->id]) }}" method="POST" class="d-inline">
