@@ -62,4 +62,13 @@ class User extends Authenticatable
         $userSkills = $this->skills ? json_decode($this->skills, true) : [];
         return empty(array_diff($skills, $userSkills));
     }
+
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class, 'course_student', 'student_id', 'course_id');
+    }
+    public function lecturerCourses()
+    {
+        return $this->belongsToMany(Course::class, 'course_lecturer', 'lecturer_id', 'course_id');
+    }
 }
