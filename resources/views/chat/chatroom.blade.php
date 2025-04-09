@@ -36,7 +36,7 @@
                                     {{ $message->message }}
                                     @if ($message->media)
                                         <div class="mt-2">
-                                            @if (Str::endsWith($message->media, ['jpg', 'jpeg', 'png', 'gif']))
+                                            @if (Str::endsWith($message->media, ['jpg', 'jpeg', 'png', 'gif','pdf','csv','docx','xlsx']))
                                             <a href="{{ asset('storage/' . $message->media) }}">
                                                 <img src="{{ asset('storage/' . $message->media) }}" alt="Media" class="w-50">
                                             </a>

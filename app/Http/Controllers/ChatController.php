@@ -35,7 +35,7 @@ class ChatController extends Controller
 
         $request->validate([
             'message' => 'nullable|string',
-            'media' => 'nullable|file|mimes:jpg,jpeg,png,gif,mp4,mov,pdf|max:20480', // Max 20MB
+            'media' => 'nullable|file|mimes:jpg,jpeg,png,gif,mp4,mov,pdf,csv,docx,xlsx|max:20480', // Max 20MB
         ]);
 
         $mediaPath = null;
