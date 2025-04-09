@@ -11,6 +11,10 @@ class CourseController extends Controller
     /**
      * Store a newly created course in the database.
      */
+    public function index(){
+        $courses = Course::all();
+        return view('admin.manage_course', compact('courses'));
+    }
     public function store(Request $request)
     {
         // Validate the request data

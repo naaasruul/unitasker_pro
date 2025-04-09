@@ -33,9 +33,9 @@ Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('students', AdminController::class);
     Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
+    Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
     Route::get('/manage-course', [AdminController::class, 'showManageCourse'])->name('manage-course');
     Route::post('/courses', [CourseController::class, 'store'])->name('courses.store');
-    Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
     Route::get('/manage-students', [AdminController::class, 'showManageStudents'])->name('manage-students');
     Route::get('/manage-lecturers', [AdminController::class, 'showManageLecturers'])->name('manage-lecturers');
 
@@ -93,4 +93,5 @@ Route::prefix('group-tasks')->name('group-tasks.')->group(function () {
     Route::get('/{group}', [GroupTaskController::class, 'index'])->name('index'); // View group tasks
     Route::post('/{group}', [GroupTaskController::class, 'store'])->name('store'); // Add a new group task
     Route::patch('/{group}/{task}', [GroupTaskController::class, 'markAsCompleted'])->name('mark-completed'); // Mark group task as completed
+    Route::patch('/group/{group}/task/{task}/progress', [GroupTaskController::class, 'updateProgress'])->name('update-progress');
 });

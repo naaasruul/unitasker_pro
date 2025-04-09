@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="col-12 col-md-6 order-md-1 order-last">
                     <h3>Manage Course</h3>
-                    <p class="text-subtitle text-muted">For Clerk Manage Courses</p>
+                    <p class="text-subtitle text-muted">For Admin Manage Courses</p>
                 </div>
                 <div class="col-12 col-md-6 order-md-2 order-first">
                     <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
@@ -56,10 +56,11 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach ($courses as $course)
                             <tr>
-                                <td>Computer Science</td>
-                                <td>DCS</td>
-                                <td>7 Hours</td>
+                                <td>{{ $course->course_name }}</td>
+                                <td>{{ $course->course_code }}</td>
+                                <td>{{ $course->course_credit_hours }} Hours</td>
                                 <td>
                                     <a href="#" class="btn btn-primary">Edit</a>
                                     <a href="#" class="btn btn-danger">Delete</a>
@@ -69,6 +70,8 @@
                                     <span class="badge bg-success">Active</span>
                                 </td> --}}
                             </tr>
+                            @endforeach
+                            
                         </tbody>
                     </table>
                 </div>
@@ -125,18 +128,6 @@
             </div>
         </div>
     </div>
-
-    <footer>
-        <div class="footer clearfix mb-0 text-muted">
-            <div class="float-start">
-                <p>2021 &copy; Mazer</p>
-            </div>
-            <div class="float-end">
-                <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a
-                        href="http://ahmadsaugi.com">A. Saugi</a></p>
-            </div>
-        </div>
-    </footer>
 </div>
 
 @include('user_header_footer.footer')
