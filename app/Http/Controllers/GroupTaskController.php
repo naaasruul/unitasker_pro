@@ -61,6 +61,8 @@ class GroupTaskController extends Controller
     {
         $request->validate([
             'status' => 'required|in:not_complete,ongoing,completed',
+            'progress' => 'nullable|string|max:1000',
+            
         ]);
 
         // Ensure the task belongs to the group
@@ -68,8 +70,27 @@ class GroupTaskController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        $task->update(['status' => $request->status]);
+        // Update the task status and comments
+        $task->update([
+            'status' => $request->status,
+            'progress' => $request->progress,
+        ]);
 
         return redirect()->route('group-tasks.index', $group->id)->with('success', 'Task status updated successfully!');
+    }
+    public function updateProgress(Request $request, Group $group, GroupTask $task)
+    {
+        $request->validate([
+            'progress' => 'required|integer|min:0|max:100',
+        ]);
+
+        // Ensure the task belongs to the group
+        if ($task->group_id !== $group->id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $task->update(['progress' => $request->progress]);
+
+        return redirect()->route('group-tasks.index', $group->id)->with('success', 'Task progress updated successfully!');
     }
 }

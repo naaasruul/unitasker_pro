@@ -52,10 +52,10 @@
             @if ($tasks->count())
                 <ul class="list-group">
                     @foreach ($tasks as $task)
-                        <li class="list-group-item">
-                            <strong>{{ $task->name }}</strong>
+                        <li class="list-group-item p-4">
+                            <h3><strong>{{ $task->name }}</strong></h3>
                             @if ($task->description)
-                                <p>{{ $task->description }}</p>
+                                <p >{{ $task->description }}</p>
                             @endif
                             @if ($task->required_skills)
                                 <p><strong>Required Skills:</strong> {{ implode(', ', json_decode($task->required_skills)) }}</p>
@@ -78,7 +78,11 @@
                                     <option value="not_complete" {{ $task->status === 'not_complete' ? 'selected' : '' }}>Not Complete</option>
                                     <option value="ongoing" {{ $task->status === 'ongoing' ? 'selected' : '' }}>Ongoing</option>
                                     <option value="completed" {{ $task->status === 'completed' ? 'selected' : '' }}>Completed</option>
+
                                 </select>
+                                <textarea class="form-control my-3" value='{{ $task->progress }}' placeholder="Update your progress"
+                                            id="floatingTextarea" name='progress'></textarea>
+
                                 <button type="submit" class="btn btn-sm btn-primary">Update</button>
                             </form>
                         </li>
