@@ -68,38 +68,40 @@
         </div>
     </div>
 
-    <div class="card mt-4">
-        <div class="card-header">
-            <h4>My Enrolled Courses</h4>
+    @if (Auth::user()->role !== 'admin')
+        <div class="card mt-4">
+            <div class="card-header">
+                <h4>My Enrolled Courses</h4>
+            </div>
+            <div class="card-body">
+                @if ($enrolledCourses->count())
+                <ul class="list-group">
+                    @foreach ($enrolledCourses as $course)
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>{{ $course->course_name }}</strong>
+                            <p class="mb-0">Code: {{ $course->course_code }}</p>
+                            <p class="mb-0">Credit Hours: {{ $course->course_credit_hours }}</p>
+                        </div>
+                        <form action="{{ route('profile.unenroll', $course->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger btn-sm">Unenroll</button>
+                        </form>
+                    </li>
+                    @endforeach
+                </ul>
+                @else
+                <p>You are not enrolled in any courses.</p>
+                @endif
+            </div>
+            <div class="card-footer">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#courseModal">
+                    <span>Select Course</span>
+                </button>
+            </div>
         </div>
-        <div class="card-body">
-            @if ($enrolledCourses->count())
-            <ul class="list-group">
-                @foreach ($enrolledCourses as $course)
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div>
-                        <strong>{{ $course->course_name }}</strong>
-                        <p class="mb-0">Code: {{ $course->course_code }}</p>
-                        <p class="mb-0">Credit Hours: {{ $course->course_credit_hours }}</p>
-                    </div>
-                    <form action="{{ route('profile.unenroll', $course->id) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm">Unenroll</button>
-                    </form>
-                </li>
-                @endforeach
-            </ul>
-            @else
-            <p>You are not enrolled in any courses.</p>
-            @endif
-        </div>
-        <div class="card-footer">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#courseModal">
-                <span>Select Course</span>
-            </button>
-        </div>
-    </div>
+    @endif
 </div>
 
 <div class="modal fade text-left" id="courseModal" tabindex="-1" role="dialog" aria-labelledby="createGroupLabel"
