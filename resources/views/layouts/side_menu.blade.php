@@ -132,6 +132,11 @@
                 <hr>
 
                 <li class="sidebar-item">
+                    <a href="{{ route('profile.index') }}" class='sidebar-link'>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
                     <a href="{{ route('logout-user') }}" class='sidebar-link'
                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <span>Log out</span>

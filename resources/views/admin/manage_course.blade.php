@@ -19,20 +19,20 @@
             </div>
         </div>
         @if (session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-@endif
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+        @endif
 
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+                @endforeach
+            </ul>
+        </div>
+        @endif
         <section class="section">
             <div class="card">
                 <div class="card-header">
@@ -41,7 +41,8 @@
                             Course
                         </div>
                         <div class="col-2">
-                          <button data-bs-toggle="modal" data-bs-target="#createGroupCourseModal" class='btn '>+ Add Course</button>
+                            <button data-bs-toggle="modal" data-bs-target="#createGroupCourseModal" class='btn '>+ Add
+                                Course</button>
                         </div>
                     </div>
                 </div>
@@ -71,7 +72,7 @@
                                 </td> --}}
                             </tr>
                             @endforeach
-                            
+
                         </tbody>
                     </table>
                 </div>
@@ -99,19 +100,19 @@
                             <input type="text" id="course-name" name="course_name" placeholder="Enter course name"
                                 class="form-control" required>
                         </div>
-                
+
                         <!-- Course Code -->
                         <label for="course-code">Course Code:</label>
                         <div class="form-group">
-                            <input type="text" id="course-code" name="course_code" placeholder="Enter course code (unique)"
-                                class="form-control" required>
+                            <input type="text" id="course-code" name="course_code"
+                                placeholder="Enter course code (unique)" class="form-control" required>
                         </div>
-                
+
                         <!-- Credit Hours -->
                         <label for="credit-hours">Credit Hours:</label>
                         <div class="form-group">
-                            <input type="number" id="credit-hours" name="course_credit_hours" placeholder="Enter credit hours"
-                                class="form-control" required>
+                            <input type="number" id="credit-hours" name="course_credit_hours"
+                                placeholder="Enter credit hours" class="form-control" required>
                         </div>
                     </div>
                     <div class="modal-footer">

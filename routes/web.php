@@ -12,6 +12,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\GroupTaskController;
 use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\SkillController;
 
@@ -28,6 +29,14 @@ Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLink
 // Reset Password
 Route::get('reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
 Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
+
+// USER PROFILE
+Route::prefix('profile')->name('profile.')->group(function () {
+    Route::get('/user', [ProfileController::class, 'index'])->name('index');
+    Route::put('/update', [ProfileController::class, 'update'])->name('update');
+    Route::post('/enroll-course', [ProfileController::class, 'enroll'])->name('enroll');
+    Route::delete('/unenroll/{course}', [ProfileController::class, 'unenroll'])->name('unenroll');
+});
 
 // Admin routes
 Route::prefix('admin')->name('admin.')->group(function () {
