@@ -16,7 +16,7 @@
                     </div>
                     <div class="name flex-grow-1">
                         <h6 class="mb-0">{{ $group->group_name }}</h6>
-                        <span class="text-xs">{{ $group->users->count() }} Members | {{ $group->unique_code }}</span>
+                        <span class="text-xs">{{ $group->users->count() }} Members | {{ $group->unique_code }} | {{ $group->course->course_name }}</span>
                     </div>
                     <div class="ms-auto">
                         <!-- Navigation Button to Group To-Do List -->

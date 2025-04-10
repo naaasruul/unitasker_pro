@@ -189,4 +189,4 @@
     });
 </script>
 
-@include('user_header_footer.footer')
+@include('user_header_footer.footer') 

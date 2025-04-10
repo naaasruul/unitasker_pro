@@ -4,7 +4,7 @@
         <div class="sidebar-header">
             <div class="d-flex justify-content-between">
                 <div class="logo">
-                    <a href="index.html">UNITASKER</a>
+                    <a href="#">UNITASKER</a>
                 </div>
                 <div class="toggler">
                     <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
@@ -168,6 +168,17 @@
                         <div class="form-group">
                             <input type="text" id="group-name" name="group_name" placeholder="Enter group name"
                                 class="form-control" required>
+                        </div>
+
+                        <!-- Select Course Dropdown -->
+                        <label for="course">Select Course:</label>
+                        <div class="form-group">
+                            <select id="course" name="course_id" class="form-control" required>
+                                <option value="" disabled selected>-- Select a Course --</option>
+                                @foreach ($courses as $course)
+                                <option value="{{ $course->id }}">{{ $course->course_name }} ({{ $course->course_code }})</option>
+                                @endforeach
+                            </select>
                         </div>
 
                         <!-- Unique Code (Generated Automatically) -->
