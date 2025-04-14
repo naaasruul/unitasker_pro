@@ -17,8 +17,7 @@ return new class extends Migration
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade'); // User who created the task
             $table->string('name'); // Task name
             $table->text('description')->nullable(); // Task description
-            $table->boolean('is_completed')->default(false); // Completion status
-            
+            $table->string('status')->default('not_completed'); // Task status: not_completed, ongoing, completed            
             $table->json('required_skills')->nullable(); // Add required_skills column
             $table->timestamps();
         });
