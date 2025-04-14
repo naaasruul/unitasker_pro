@@ -17,6 +17,10 @@ class GroupTask extends Model
         'progress', // Add this line
 
     ];
+    
+    protected $casts = [
+        'required_skills' => 'array', // Cast required_skills to an array
+    ];
 
     public function group()
     {
