@@ -20,4 +20,8 @@ class Course extends Model
     {
         return $this->hasMany(Group::class);
     }
+    public function lecturers()
+    {
+        return $this->belongsToMany(User::class, 'course_lecturer', 'course_id', 'lecturer_id');
+    }
 }

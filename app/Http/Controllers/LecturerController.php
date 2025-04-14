@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use App\Models\Group;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,8 +30,10 @@ class LecturerController extends Controller
                 }),
             ];
         });
+        $groups = Group::where('created_by', Auth::id())->with(['users', 'groupTasks'])->get();
+        $courses = Course::all(); // Fetch all courses
 
-        return view('lecturer.dashboard', compact('groupData'));
+        return view('lecturer.dashboard', compact('groupData','courses'));
     }
 
     /**

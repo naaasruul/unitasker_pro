@@ -34,11 +34,13 @@ class GroupController extends Controller
     {
         $request->validate([
             'group_name' => 'required|string|max:255',
+            'course_id' => 'required|exists:courses,id', // Validate the selected course
         ]);
 
         Group::create([
             'group_name' => $request->group_name,
-            'unique_code' => strtoupper(Str::random(8)),
+            'unique_code' => $request->unique_code,
+            'course_id' => $request->course_id, // Store the selected course
             'created_by' => Auth::id(),
         ]);
 

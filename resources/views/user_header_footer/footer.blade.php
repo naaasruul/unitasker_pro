@@ -89,28 +89,6 @@ window.print();
 }
 </script>
 
- <script>
-    document.getElementById('password').addEventListener('click', async (e) => {
-
-const { value: password } = await Swal.fire({
-title: 'Enter group code',
-input: 'text',
-inputLabel: 'Code',
-inputPlaceholder: 'Enter group code',
-inputAttributes: {
-maxlength: 10,
-autocapitalize: 'off',
-autocorrect: 'off'
-}
-})
-
-if (password) {
-Swal.fire(`Entered password: ${password}`)
-}
-
-})
-</script>
-
 </body>
 
 </html>

@@ -12,6 +12,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\GroupTaskController;
 use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\SkillController;
 
@@ -22,20 +23,28 @@ Route::post('/login', [LoginController::class, 'login'])->name('login-user');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout-user');
 
 // Forgot Password
-Route::get('forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
-Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
 
 // Reset Password
 Route::get('reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
 Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
 
+// USER PROFILE
+Route::prefix('profile')->name('profile.')->group(function () {
+    Route::get('/user', [ProfileController::class, 'index'])->name('index');
+    Route::put('/update', [ProfileController::class, 'update'])->name('update');
+    Route::post('/enroll-course', [ProfileController::class, 'enroll'])->name('enroll');
+    Route::delete('/unenroll/{course}', [ProfileController::class, 'unenroll'])->name('unenroll');
+});
+
 // Admin routes
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('students', AdminController::class);
     Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
+    Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
     Route::get('/manage-course', [AdminController::class, 'showManageCourse'])->name('manage-course');
     Route::post('/courses', [CourseController::class, 'store'])->name('courses.store');
-    Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
     Route::get('/manage-students', [AdminController::class, 'showManageStudents'])->name('manage-students');
     Route::get('/manage-lecturers', [AdminController::class, 'showManageLecturers'])->name('manage-lecturers');
 
@@ -93,4 +102,5 @@ Route::prefix('group-tasks')->name('group-tasks.')->group(function () {
     Route::get('/{group}', [GroupTaskController::class, 'index'])->name('index'); // View group tasks
     Route::post('/{group}', [GroupTaskController::class, 'store'])->name('store'); // Add a new group task
     Route::patch('/{group}/{task}', [GroupTaskController::class, 'markAsCompleted'])->name('mark-completed'); // Mark group task as completed
+    Route::patch('/group/{group}/task/{task}/progress', [GroupTaskController::class, 'updateProgress'])->name('update-progress');
 });

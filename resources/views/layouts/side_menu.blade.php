@@ -4,7 +4,7 @@
         <div class="sidebar-header">
             <div class="d-flex justify-content-between">
                 <div class="logo">
-                    <a href="index.html">UNITASKER</a>
+                    <a href="#">UNITASKER</a>
                 </div>
                 <div class="toggler">
                     <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
@@ -81,8 +81,15 @@
 
                 {{-- Admin Menu --}}
                 @if (Auth::user()->role === 'admin')
+                        
+                    <li class="sidebar-item {{ Request::routeIs('admin.courses.index') || Request::routeIs('admin.manage-lecturers') ? 'active' : '' }}">
+                        <a href="{{ route('admin.courses.index') }}" class='sidebar-link'>
+                            <i class="bi bi-stack"></i>
+                            <span>Course</span>
+                        </a>
+                    </li>
                     <li class="sidebar-item has-sub {{ Request::routeIs('admin.manage-students') || Request::routeIs('admin.manage-lecturers') ? 'active' : '' }}">
-                        <a href="#" class='sidebar-link'>
+                        <a href="{{ route('admin.manage-students') }}" class='sidebar-link'>
                             <i class="bi bi-stack"></i>
                             <span>User</span>
                         </a>
@@ -125,6 +132,11 @@
                 <hr>
 
                 <li class="sidebar-item">
+                    <a href="{{ route('profile.index') }}" class='sidebar-link'>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
                     <a href="{{ route('logout-user') }}" class='sidebar-link'
                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <span>Log out</span>
@@ -156,6 +168,17 @@
                         <div class="form-group">
                             <input type="text" id="group-name" name="group_name" placeholder="Enter group name"
                                 class="form-control" required>
+                        </div>
+
+                        <!-- Select Course Dropdown -->
+                        <label for="course">Select Course:</label>
+                        <div class="form-group">
+                            <select id="course" name="course_id" class="form-control" required>
+                                <option value="" disabled selected>-- Select a Course --</option>
+                                @foreach ($courses as $course)
+                                <option value="{{ $course->id }}">{{ $course->course_name }} ({{ $course->course_code }})</option>
+                                @endforeach
+                            </select>
                         </div>
 
                         <!-- Unique Code (Generated Automatically) -->

@@ -19,8 +19,10 @@ class GroupTaskController extends Controller
 
         // Fetch group tasks
         $tasks = $group->groupTasks()->orderBy('created_at', 'desc')->get();
-
-        return view('group.todo', compact('group', 'tasks'));
+        
+        // Fetch all users in the group
+        $users = $group->users;
+        return view('group.todo', compact('group', 'tasks', 'users'));
     }
 
     public function store(Request $request, Group $group)
@@ -59,6 +61,8 @@ class GroupTaskController extends Controller
     {
         $request->validate([
             'status' => 'required|in:not_complete,ongoing,completed',
+            'progress' => 'nullable|string|max:1000',
+            
         ]);
 
         // Ensure the task belongs to the group
@@ -66,8 +70,27 @@ class GroupTaskController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        $task->update(['status' => $request->status]);
+        // Update the task status and comments
+        $task->update([
+            'status' => $request->status,
+            'progress' => $request->progress,
+        ]);
 
         return redirect()->route('group-tasks.index', $group->id)->with('success', 'Task status updated successfully!');
+    }
+    public function updateProgress(Request $request, Group $group, GroupTask $task)
+    {
+        $request->validate([
+            'progress' => 'required|integer|min:0|max:100',
+        ]);
+
+        // Ensure the task belongs to the group
+        if ($task->group_id !== $group->id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $task->update(['progress' => $request->progress]);
+
+        return redirect()->route('group-tasks.index', $group->id)->with('success', 'Task progress updated successfully!');
     }
 }
