@@ -44,6 +44,6 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Optionally, create additional random users
-        // User::factory(10)->create();
+        User::factory(10)->create();
     }
 }

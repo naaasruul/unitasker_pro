@@ -100,9 +100,9 @@
             <h5 class=" text-white">Completed Tasks</h5>
         </div>
         <div class="card-body">
-            @if ($tasks->where('is_completed', true)->count())
+            @if ($tasks->where('status','completed')->count())
                 <ul class="list-group">
-                    @foreach ($tasks->where('is_completed', true) as $task)
+                    @foreach ($tasks->where('status','completed') as $task)
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <div>
                                 <strong>{{ $task->name }}</strong>

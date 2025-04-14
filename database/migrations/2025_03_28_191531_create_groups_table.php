@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('group_name');
             $table->foreignId('course_id')->constrained('courses')->onDelete('cascade'); // Link to courses
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade'); // Add created_by column
+
             $table->timestamps();
         });
     }
