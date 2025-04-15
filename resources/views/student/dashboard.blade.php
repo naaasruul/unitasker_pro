@@ -312,12 +312,15 @@
                 }
             }
         }
-
-                $('#addTaskForm').on('submit', function (e) {
+        $('#addTaskForm').on('submit', function (e) {
             e.preventDefault();
-        
-            const formData = $(this).serialize();
-        
+            const formData = {
+                name: $('#taskName').val(),
+                description: $('#taskDescription').val(),
+                date: $('#taskDate').val()
+            }
+            // const formData = $(this).serialize();
+            console.log(formData);
             $.ajax({
                 url: '{{ route('tasks.store') }}',
                 type: 'POST',
