@@ -12,8 +12,9 @@ class EnrollmentController extends Controller
     {
         $courses = Course::all();
         $enrolledCourses = Auth::user()->courses;
+        $lecturerEnrollCourses = Auth::user()->lecturerCourses;
 
-        return view('student.enrollment', compact('courses', 'enrolledCourses'));
+        return view('layouts.enrollcourse', compact('courses', 'enrolledCourses','lecturerEnrollCourses'));
     }
 
     public function enroll(Request $request)

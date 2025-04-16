@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\LecturerController;
 use Illuminate\Support\Facades\Route;
@@ -34,6 +35,12 @@ Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('
 Route::prefix('profile')->name('profile.')->group(function () {
     Route::get('/user', [ProfileController::class, 'index'])->name('index');
     Route::put('/update', [ProfileController::class, 'update'])->name('update');
+    Route::post('/enroll-course', [ProfileController::class, 'enroll'])->name('enroll');
+    Route::delete('/unenroll/{course}', [ProfileController::class, 'unenroll'])->name('unenroll');
+});
+
+Route::prefix('course')->name('course.')->group(function () {
+    Route::get('/', [EnrollmentController::class, 'index'])->name('index');
     Route::post('/enroll-course', [ProfileController::class, 'enroll'])->name('enroll');
     Route::delete('/unenroll/{course}', [ProfileController::class, 'unenroll'])->name('unenroll');
 });

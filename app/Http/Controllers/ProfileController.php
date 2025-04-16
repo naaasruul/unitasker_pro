@@ -92,6 +92,6 @@ class ProfileController extends Controller
             return redirect()->back()->with('error', 'Only students or lecturers can unenroll from courses.');
         }
 
-        return redirect()->route('profile.index')->with('success', 'You have successfully unenrolled from the course!');
+        return redirect()->back()->with('success', 'You have successfully unenrolled from the course!');
     }
 }

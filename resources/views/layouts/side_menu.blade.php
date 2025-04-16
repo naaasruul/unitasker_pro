@@ -48,7 +48,15 @@
                         </ul>
                     </li> --}}
                 @endif
-
+                   
+                @if (Auth::user()->role !== 'admin')
+                <li class="sidebar-item">
+                    <a href="{{ Route('course.index') }}" class='sidebar-link'>
+                        <i class="bi bi-stack"></i>
+                        <span>Course</span>
+                    </a>
+                </li>
+                @endif    
                 {{-- Lecturer Menu --}}
                 @if (Auth::user()->role === 'lecturer')
                     <li class="sidebar-item has-sub">
@@ -76,6 +84,7 @@
                         </li>
                     @endforeach
                 @endif
+             
 
 
 
@@ -108,6 +117,15 @@
                 @if (Auth::user()->role === 'student')
                     <li class="sidebar-title">Chatroom</li>
 
+                    @if (Auth::user()->role === 'student')
+                        <li class="sidebar-item">
+                            <a href="#" class='sidebar-link' data-bs-toggle="modal" data-bs-target="#joinGroupModal">
+                                <i class="bi bi-file-earmark-spreadsheet-fill"></i>
+                                <span>+ Join Group</span>
+                            </a>
+                        </li>
+                    @endif
+                    
                     @foreach (Auth::user()->groups as $group)
                         <li class="sidebar-item {{ Request::is('chat/' . $group->id) ? 'active' : '' }}">
                             <a href="{{ route('chat.index', $group) }}" class='sidebar-link'>
@@ -117,16 +135,6 @@
                         </li>
                     @endforeach
 
-                    @if (Auth::user()->role === 'student')
-                        <li class="sidebar-item">
-                            <a href="#" class='sidebar-link' data-bs-toggle="modal" data-bs-target="#joinGroupModal">
-                                <i class="bi bi-file-earmark-spreadsheet-fill"></i>
-                                <span>+ Join Group</span>
-                            </a>
-                        </li>
-
-                       
-                    @endif
                 @endif
 
                 <hr>
