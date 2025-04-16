@@ -45,6 +45,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
     Route::get('/manage-course', [AdminController::class, 'showManageCourse'])->name('manage-course');
     Route::post('/courses', [CourseController::class, 'store'])->name('courses.store');
+    Route::put('/courses/{course}', [CourseController::class, 'update'])->name('courses.update');
+    Route::delete('/courses/{course}', [CourseController::class, 'destroy'])->name('courses.destroy');
     Route::get('/manage-students', [AdminController::class, 'showManageStudents'])->name('manage-students');
     Route::get('/manage-lecturers', [AdminController::class, 'showManageLecturers'])->name('manage-lecturers');
 

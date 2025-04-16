@@ -15,6 +15,7 @@ class CourseController extends Controller
         $courses = Course::all();
         return view('admin.manage_course', compact('courses'));
     }
+
     public function store(Request $request)
     {
         // Validate the request data
@@ -33,5 +34,27 @@ class CourseController extends Controller
 
         // Redirect back with a success message
         return redirect()->back()->with('success', 'Course created successfully!');
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'course_name' => 'required|string|max:255',
+            'course_code' => 'required|string|max:255|unique:courses,course_code,' . $id,
+            'course_credit_hours' => 'required|integer|min:1',
+        ]);
+
+        $course = Course::findOrFail($id);
+        $course->update($request->all());
+
+        return redirect()->back()->with('success', 'Course updated successfully!');
+    }
+    
+    public function destroy($id)
+    {
+        $course = Course::findOrFail($id);
+        $course->delete();
+
+        return redirect()->back()->with('success', 'Course deleted successfully!');
     }
 }
