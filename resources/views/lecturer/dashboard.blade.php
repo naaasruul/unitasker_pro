@@ -61,10 +61,12 @@
                                                     <td>{{ $task['task_name'] }}</td>
                                                     <td>{{ $task['description'] }}</td>
                                                     <td>
-                                                        @if ($task['is_completed'])
+                                                        @if ($task['status'] == 'completed')
                                                             <span class="badge bg-success">Completed</span>
+                                                        @elseif ($task['status'] == 'ongoing')
+                                                            <span class="badge bg-warning">Ongoing</span>    
                                                         @else
-                                                            <span class="badge bg-danger">Pending</span>
+                                                            <span class="badge bg-danger">Not Completed</span>
                                                         @endif
                                                     </td>
                                                 </tr>

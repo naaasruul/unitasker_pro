@@ -25,7 +25,7 @@ class LecturerController extends Controller
                     return [
                         'task_name' => $task->name,
                         'description' => $task->description,
-                        'is_completed' => $task->is_completed,
+                        'status' => $task->status,
                     ];
                 }),
             ];
